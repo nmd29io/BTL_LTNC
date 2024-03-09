@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Project1\SDL2_image-2.8.2\include;D:\Project1\SDL2-2.28.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Project1\SDL2_image-2.8.2\lib\x64;D:\Project1\SDL2-2.28.0\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Project1\SDL2_image-2.8.2\include;D:\Project1\SDL2_ttf-2.22.0\include;D:\Project1\SDL2-2.28.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Project1\SDL2_image-2.8.2\lib\x64;D:\Project1\SDL2-2.28.0\lib\x64;D:\Project1\SDL2_ttf-2.22.0\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -112,7 +112,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -135,7 +135,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Screen.h" />
+    <ClInclude Include="game.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
