@@ -1,18 +1,22 @@
 #pragma once
-#include"SDL.h"
+#include<SDL.h>
+#include<SDL_image.h>
+#include<SDL_ttf.h>
 #include<iostream>
 #include<vector>
 #include<deque>
 
-const int COL = 60;
-const int ROW = 40;
-const int CELL = 20;
+
+const int COL = 30;
+const int ROW = 20;
+const int CELL = 28;
 
 SDL_Window* window;
 SDL_Renderer* renderer;
+SDL_Texture* texture;
 
 SDL_Rect head{ COL * CELL / 2,ROW * CELL / 2,CELL - 1,CELL - 1 };
-std::deque<SDL_Rect> snake{ head,{ COL * CELL / 2 - CELL - 1,ROW * CELL / 2,CELL,CELL } };
+std::deque<SDL_Rect> snake{ head,{ COL * CELL / 2 - CELL - 1,ROW * CELL / 2,CELL-1,CELL-1 } };
 int SnakeSize = 2;
 
 SDL_Rect direction{ CELL,0 };
@@ -21,22 +25,27 @@ std::vector<SDL_Rect> foods;
 int FoodsNumber = 5;
 int countFoodsEated = 0;
 
-bool gameOver = false;
+bool isTouchBounderies = false;
+bool isTouchSnakeBody = false;
+
 bool running = false;
 bool Initialize();
 void Shutdown();
-void processInput();
+void Input();
 
 void createFoods();
 void updateHead();
 void checkCollisions();
 void eatFood();
-void render();
+void renderBaseGame();
+void renderGameOver();
 
+void renderGameOver(){
 
+}
 void createFoods() {
     while (FoodsNumber) {
-        foods.push_back({ rand() % COL * CELL,rand() % ROW * CELL ,CELL,CELL });
+        foods.push_back({ rand() % COL * CELL,rand() % ROW * CELL ,CELL-1,CELL-1 });
         FoodsNumber--;
     }
 }
@@ -44,6 +53,7 @@ void updateHead() {
     // Move the snake
     head.x = snake.front().x + direction.x;
     head.y = snake.front().y + direction.y;
+
     snake.push_front(head);
     if (int(snake.size()) > SnakeSize) { snake.pop_back(); }
 
@@ -54,54 +64,64 @@ void checkCollisions() {
         if ((segment.x > head.x - CELL && segment.x < head.x + CELL)
             && (segment.y > head.y - CELL && segment.y < head.y + CELL)
             ) {
-            gameOver = true;
+            isTouchSnakeBody = true;
+
             break;
         }
     }
 
     // Check for collisions with window boundaries
-    if (head.x > COL * CELL - CELL || head.y > COL * CELL - CELL || head.x < 0 || head.y < 0) {
-        gameOver = true;
+    if (    head.x > COL * CELL - CELL 
+        ||  head.y > ROW * CELL - CELL 
+        ||  head.x < 0 
+        ||  head.y < 0
+        ) 
+    {
+        isTouchBounderies = true;
+        direction.x=-direction.x;
+        direction.y=-direction.y;
+
     }
 }
+
 void eatFood() {
 
     for (SDL_Rect& food : foods)
         if ((food.x > head.x - CELL && food.x < head.x + CELL)
             && (food.y > head.y - CELL && food.y < head.y + CELL)
             ) {
-            food.x = -CELL; food.y = -CELL;
-            countFoodsEated++;
+            food.x = -CELL; food.y = -CELL; countFoodsEated++;
+            
+            
+            
             //Make snake longer
-            SnakeSize += 5;
+            SnakeSize += 1;
             foods.push_back({ rand() % COL * CELL,rand() % ROW * CELL ,CELL,CELL });
         }
+
 }
-void render() {
-    // Green background
+void renderBaseGame() {
+    // Clear background /green
     SDL_SetRenderDrawColor(renderer, 150, 200, 50, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
 
-    // Draw foods
+    // Draw foods /red
     SDL_SetRenderDrawColor(renderer, 255, 20, 20, SDL_ALPHA_OPAQUE);
     for (SDL_Rect& food : foods) {
         //if(food == foods.front() )
         SDL_RenderFillRect(renderer, &food);
     }
     // Draw the snake /blue
-    SDL_SetRenderDrawColor(renderer, 60, 140, 220, SDL_ALPHA_OPAQUE);
+    SDL_SetRenderDrawColor(renderer, 60, 100, 220, SDL_ALPHA_OPAQUE);
     for (SDL_Rect& segment : snake) {
         SDL_RenderFillRect(renderer, &segment);
+
     }
+    // Draw snake head detail
     SDL_SetRenderDrawColor(renderer, 20, 20, 220, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(renderer, &head);
-
-
-
-    SDL_RenderPresent(renderer);
-    SDL_Delay(50);
 }
-void processInput() {
+void Input() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
@@ -131,10 +151,14 @@ bool Initialize() {
         std::cout << "SDL initialization failed: " << SDL_GetError() << std::endl;
         return false;
     }
-    //if (TTF_Init() != 0) {
-    //    std::cout << "TTF initialization failed: " << TTF_GetError() << std::endl;
-    //    return false;
-    //}
+    if (TTF_Init() != 0) {
+        std::cout << "TTF initialization failed: " << TTF_GetError() << std::endl;
+        return false;
+    }
+    int flags = IMG_INIT_JPG | IMG_INIT_PNG;
+    if ((IMG_Init(flags) & flags) != flags) {
+        std::cout << "IMG initialization failed : " << IMG_GetError();
+    }
     window = SDL_CreateWindow("Snake Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         COL * CELL, ROW * CELL, SDL_WINDOW_SHOWN);
     if (!window) {
@@ -155,7 +179,9 @@ bool Initialize() {
 void Shutdown() {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    SDL_DestroyTexture(texture);
     SDL_Quit();
-    //TTF_Quit();
+    TTF_Quit();
+    IMG_Quit();
 }
 
