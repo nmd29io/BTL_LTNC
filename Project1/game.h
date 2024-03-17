@@ -2,71 +2,72 @@
 #include<SDL.h>
 #include<SDL_image.h>
 #include<SDL_ttf.h>
+#include<SDL_mixer.h>
 #include<iostream>
 #include<vector>
 #include<deque>
 
 
-const int COL = 30;
-const int ROW = 20;
-const int CELL = 28;
+const int COL = 24;
+const int ROW = 18;
+const int CELL = 40;
 
 SDL_Window* window;
 SDL_Renderer* renderer;
 SDL_Texture* texture;
 
-SDL_Rect head{ COL * CELL / 2,ROW * CELL / 2,CELL - 1,CELL - 1 };
-std::deque<SDL_Rect> snake{ head,{ COL * CELL / 2 - CELL - 1,ROW * CELL / 2,CELL-1,CELL-1 } };
-int SnakeSize = 2;
+
+SDL_Rect head{ COL * CELL / 2,ROW * CELL / 2,CELL-1,CELL-1};
+std::deque<SDL_Rect> snake{ head,{ COL * CELL / 2 - CELL,ROW * CELL / 2,CELL,CELL},{ COL * CELL / 2 - 2*CELL,ROW * CELL / 2,CELL,CELL} };
+int SnakeSize = 3;
 
 SDL_Rect direction{ CELL,0 };
 
 std::vector<SDL_Rect> foods;
 int FoodsNumber = 5;
-int countFoodsEated = 0;
+int FoodsEated = 0;
 
 bool isTouchBounderies = false;
 bool isTouchSnakeBody = false;
 
 bool running = false;
-bool Initialize();
-void Shutdown();
-void Input();
 
-void createFoods();
-void updateHead();
-void checkCollisions();
-void eatFood();
-void renderBaseGame();
-void renderGameOver();
-
-void renderGameOver(){
-
-}
 void createFoods() {
     while (FoodsNumber) {
-        foods.push_back({ rand() % COL * CELL,rand() % ROW * CELL ,CELL-1,CELL-1 });
+        foods.push_back({ rand() % COL * CELL,rand() % ROW * CELL ,CELL,CELL});
         FoodsNumber--;
+    }
+}bool lose =false;
+void replay(){
+    lose =false;
+    snake.clear();
+    foods.clear();
+    FoodsNumber=5;
+    FoodsEated =0;
+    snake.resize(2);
+    SnakeSize = 3;
+    for (int i = 0; i < 3; ++i) {
+        snake[i].x = CELL*(COL/2 -i);
+        snake[i].y = CELL*(ROW/2 -i);
     }
 }
 void updateHead() {
     // Move the snake
-    head.x = snake.front().x + direction.x;
-    head.y = snake.front().y + direction.y;
+    if(!(direction.x == 0 && direction.y ==0)){
+        head.x = snake.front().x + direction.x;
+        head.y = snake.front().y + direction.y;
 
-    snake.push_front(head);
-    if (int(snake.size()) > SnakeSize) { snake.pop_back(); }
-
+        snake.push_front(head);
+        if (int(snake.size()) > SnakeSize) { snake.pop_back(); }
+    }
 }
 void checkCollisions() {
     // Check for collisions with snake's body
-    for (SDL_Rect& segment : snake) {
-        if ((segment.x > head.x - CELL && segment.x < head.x + CELL)
-            && (segment.y > head.y - CELL && segment.y < head.y + CELL)
+    for (int i = 1; i < SnakeSize; i++) {
+        if (snake[0].x == snake[i].x && snake[0].y ==snake[i].y
             ) {
-            isTouchSnakeBody = true;
+            lose=true;break;
 
-            break;
         }
     }
 
@@ -77,27 +78,34 @@ void checkCollisions() {
         ||  head.y < 0
         ) 
     {
-        isTouchBounderies = true;
+        lose=true;
         direction.x=-direction.x;
         direction.y=-direction.y;
 
-    }
-}
 
+    }
+    
+}
+Mix_Chunk* eatSound = Mix_LoadWAV("D:\\Project1\\crunch.wav");
 void eatFood() {
 
     for (SDL_Rect& food : foods)
-        if ((food.x > head.x - CELL && food.x < head.x + CELL)
-            && (food.y > head.y - CELL && food.y < head.y + CELL)
-            ) {
-            food.x = -CELL; food.y = -CELL; countFoodsEated++;
+        for(SDL_Rect& segment : snake)
+            if ((food.x > segment.x - CELL && food.x < segment.x + CELL)
+                && (food.y > segment.y - CELL && food.y < segment.y + CELL)
+                ) 
+            {
+                Mix_PlayChannel(-1, eatSound, 0);
+                food.x = -CELL; food.y = -CELL; FoodsEated++;
+                
+                // for (SDL_Rect& food : foods){
+                //     if(food.x > 0 && food.y > 0) {snake.push_front(food);break;}
+                // }
             
-            
-            
-            //Make snake longer
-            SnakeSize += 1;
-            foods.push_back({ rand() % COL * CELL,rand() % ROW * CELL ,CELL,CELL });
-        }
+                //Make snake longer
+                SnakeSize += 1;
+                foods.push_back({ rand() % COL * CELL,rand() % ROW * CELL ,CELL,CELL });
+            }
 
 }
 void renderBaseGame() {
@@ -106,10 +114,9 @@ void renderBaseGame() {
     SDL_RenderClear(renderer);
 
     // Draw foods /red
-    SDL_SetRenderDrawColor(renderer, 255, 20, 20, SDL_ALPHA_OPAQUE);
+    texture = IMG_LoadTexture(renderer, "D:\\Project1\\food.png"); 
     for (SDL_Rect& food : foods) {
-        //if(food == foods.front() )
-        SDL_RenderFillRect(renderer, &food);
+        SDL_RenderCopy(renderer,texture,NULL,&food);
     }
     // Draw the snake /blue
     SDL_SetRenderDrawColor(renderer, 60, 100, 220, SDL_ALPHA_OPAQUE);
@@ -121,30 +128,6 @@ void renderBaseGame() {
     SDL_SetRenderDrawColor(renderer, 20, 20, 220, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(renderer, &head);
 }
-void Input() {
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-        if (event.type == SDL_QUIT) {
-            running = false;
-        }
-        else if (event.type == SDL_KEYDOWN) {
-            switch (event.key.keysym.sym) {
-            case SDLK_UP:
-                direction.x = 0; direction.y = -CELL;
-                break;
-            case SDLK_DOWN:
-                direction.x = 0; direction.y = CELL;
-                break;
-            case SDLK_LEFT:
-                direction.x = -CELL; direction.y = 0;
-                break;
-            case SDLK_RIGHT:
-                direction.x = CELL; direction.y = 0;
-                break;
-            }
-        }
-    }
-}
 
 bool Initialize() {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -153,6 +136,10 @@ bool Initialize() {
     }
     if (TTF_Init() != 0) {
         std::cout << "TTF initialization failed: " << TTF_GetError() << std::endl;
+        return false;
+    }
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+        std::cout << "Mix initialization failed: " << Mix_GetError() << std::endl;
         return false;
     }
     int flags = IMG_INIT_JPG | IMG_INIT_PNG;
@@ -178,10 +165,16 @@ bool Initialize() {
 
 void Shutdown() {
     SDL_DestroyRenderer(renderer);
+    renderer = NULL;
     SDL_DestroyWindow(window);
+    window = NULL;
     SDL_DestroyTexture(texture);
+    texture = NULL;
+
+    Mix_FreeChunk(eatSound);
     SDL_Quit();
     TTF_Quit();
     IMG_Quit();
+    Mix_CloseAudio();
 }
 
