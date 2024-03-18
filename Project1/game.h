@@ -10,13 +10,13 @@
 
 const int COL = 24;
 const int ROW = 18;
-const int CELL = 40;
-
+const int CELL = 44;
+int delay = 150;
 SDL_Window* window;
 SDL_Renderer* renderer;
 SDL_Texture* texture;
 
-
+SDL_Rect wall{CELL,CELL,COL * CELL - 2*CELL,ROW * CELL - 2*CELL};
 SDL_Rect head{ COL * CELL / 2,ROW * CELL / 2,CELL-1,CELL-1};
 std::deque<SDL_Rect> snake{ head,{ COL * CELL / 2 - CELL,ROW * CELL / 2,CELL,CELL},{ COL * CELL / 2 - 2*CELL,ROW * CELL / 2,CELL,CELL} };
 int SnakeSize = 3;
@@ -31,20 +31,22 @@ bool isTouchBounderies = false;
 bool isTouchSnakeBody = false;
 
 bool running = false;
-
+bool pause = false;
 void createFoods() {
     while (FoodsNumber) {
-        foods.push_back({ rand() % COL * CELL,rand() % ROW * CELL ,CELL,CELL});
+        foods.push_back({ rand() % (COL-2) * CELL + CELL, rand() % (ROW-2) * CELL + CELL , CELL, CELL});
         FoodsNumber--;
     }
 }bool lose =false;
 void replay(){
+    delay = 150;
     lose =false;
     snake.clear();
     foods.clear();
     FoodsNumber=5;
     FoodsEated =0;
-    snake.resize(2);
+    direction.x=CELL;direction.y=0;
+    snake.resize(3);
     SnakeSize = 3;
     for (int i = 0; i < 3; ++i) {
         snake[i].x = CELL*(COL/2 -i);
@@ -72,10 +74,10 @@ void checkCollisions() {
     }
 
     // Check for collisions with window boundaries
-    if (    head.x > COL * CELL - CELL 
-        ||  head.y > ROW * CELL - CELL 
-        ||  head.x < 0 
-        ||  head.y < 0
+    if (    head.x > COL * CELL - CELL -CELL 
+        ||  head.y > ROW * CELL - CELL -CELL 
+        ||  head.x < CELL 
+        ||  head.y < CELL 
         ) 
     {
         lose=true;
@@ -98,13 +100,14 @@ void eatFood() {
                 Mix_PlayChannel(-1, eatSound, 0);
                 food.x = -CELL; food.y = -CELL; FoodsEated++;
                 
-                // for (SDL_Rect& food : foods){
-                //     if(food.x > 0 && food.y > 0) {snake.push_front(food);break;}
-                // }
-            
                 //Make snake longer
                 SnakeSize += 1;
-                foods.push_back({ rand() % COL * CELL,rand() % ROW * CELL ,CELL,CELL });
+                //Increase speed
+                delay-=3;
+                //Add food
+            foods.push_back({ rand() % (COL-2) * CELL + CELL, rand() % (ROW-2) * CELL + CELL , CELL, CELL});
+
+
             }
 
 }
@@ -127,6 +130,9 @@ void renderBaseGame() {
     // Draw snake head detail
     SDL_SetRenderDrawColor(renderer, 20, 20, 220, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(renderer, &head);
+    // Draw wall
+    SDL_SetRenderDrawColor(renderer, 20, 20, 220, SDL_ALPHA_OPAQUE);
+    SDL_RenderDrawRect(renderer,&wall);
 }
 
 bool Initialize() {

@@ -3,6 +3,7 @@
 #include"button.h"
 
 
+
 int main(int argc, char** argv)
 {
 
@@ -21,6 +22,7 @@ path[9]="D:\\Project1\\snakeEye\\snakeEye9.png";
 path[10]="D:\\Project1\\snakeEye\\snakeEye10.png";
 path[11]="D:\\Project1\\snakeEye\\snakeEye11.png";
 path[12]="D:\\Project1\\snakeEye\\snakeEye12.png";
+
 
     if (Initialize()) {
         while (running) {
@@ -48,7 +50,7 @@ path[12]="D:\\Project1\\snakeEye\\snakeEye12.png";
                         {direction.x = CELL; direction.y = 0;}
                         break;
                     case SDLK_SPACE:
-                        direction.x = 0; direction.y = 0;
+                        pause = !pause;
                         break;
                     case SDLK_r:
                         replay(); lose = false;
@@ -56,16 +58,22 @@ path[12]="D:\\Project1\\snakeEye\\snakeEye12.png";
                     }
                 }
             }
+            if(pause){
+                goto here;
+            }
             updateHead();
+            checkCollisions();
             if(lose){
 
-                gameOver();SDL_Delay(500);
+                gameOver();SDL_Delay(50);
             }
             else{
+            
+            
             createFoods();
                  
             
-            checkCollisions();
+            
             eatFood();
         
 
@@ -75,8 +83,10 @@ path[12]="D:\\Project1\\snakeEye\\snakeEye12.png";
                 SDL_RenderCopy(renderer,texture,NULL,&head);
             frame++;
             }
+                score();
+            here:
             SDL_RenderPresent(renderer);
-            SDL_Delay(120);
+            SDL_Delay(delay);
         }
     }
     Shutdown();
