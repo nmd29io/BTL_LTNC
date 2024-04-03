@@ -2,11 +2,16 @@
 #include<string>
 #include"game.h"
 #include"menu.h"
-#include"button.h"
 #include <fstream>
 
 int highScore_;
+
+
 void gameOver(){
+    // SDL_SetRenderDrawColor(0,0,0,255);
+
+    // SDL_RenderFillRect(renderer,)
+    
 	auto* font = TTF_OpenFont("D:\\Project1\\VT323\\VT323-Regular.ttf",50);
 	SDL_Color textColor = { 255, 255, 255,255};
 

@@ -6,8 +6,7 @@
 #include<iostream>
 #include<vector>
 #include<deque>
-
-
+const int FOOD = 2;
 const int COL = 24;
 const int ROW = 18;
 const int CELL = 44;
@@ -17,43 +16,64 @@ SDL_Renderer* renderer;
 SDL_Texture* texture;
 
 SDL_Rect wall{CELL,CELL,COL * CELL - 2*CELL,ROW * CELL - 2*CELL};
-SDL_Rect head{ COL * CELL / 2,ROW * CELL / 2,CELL-1,CELL-1};
-std::deque<SDL_Rect> snake{ head,{ COL * CELL / 2 - CELL,ROW * CELL / 2,CELL,CELL},{ COL * CELL / 2 - 2*CELL,ROW * CELL / 2,CELL,CELL} };
+SDL_Rect head{ COL * CELL / 6,ROW * CELL / 2,CELL-1,CELL-1};
+std::deque<SDL_Rect> snake;
 int SnakeSize = 3;
 
 SDL_Rect direction{ CELL,0 };
 
 std::vector<SDL_Rect> foods;
-int FoodsNumber = 5;
+int FoodsNumber = FOOD;
 int FoodsEated = 0;
 
 bool isTouchBounderies = false;
 bool isTouchSnakeBody = false;
 
 bool running = false;
-bool pause = false;
+bool pause = true;
+void initSnake(){
+    snake.resize(3);
+    SnakeSize = 3;
+    for (int i = 0; i < SnakeSize; ++i) {
+        snake[i].x = CELL*(COL/6 -i);
+        snake[i].y = CELL*(ROW/2 -i);
+    }
+}
 void createFoods() {
     while (FoodsNumber) {
         foods.push_back({ rand() % (COL-2) * CELL + CELL, rand() % (ROW-2) * CELL + CELL , CELL, CELL});
         FoodsNumber--;
     }
 }bool lose =false;
+void makeTLfood();
 void replay(){
     delay = 150;
     lose =false;
     snake.clear();
     foods.clear();
-    FoodsNumber=5;
+    FoodsNumber=FOOD;
     FoodsEated =0;
     direction.x=CELL;direction.y=0;
-    snake.resize(3);
-    SnakeSize = 3;
-    for (int i = 0; i < 3; ++i) {
-        snake[i].x = CELL*(COL/2 -i);
-        snake[i].y = CELL*(ROW/2 -i);
-    }
+    makeTLfood();
+    initSnake();
 }
+// //body texture
+// enum{    bl,br,tl,tr,h,v    };
+// std::deque<string> bodyTex[6]{
+//     bodyTex[bl] = "D:\\Project1\\Project1\\Graphics\\body_bl.png"
+//     bodyTex[br] = "D:\\Project1\\Project1\\Graphics\\body_br.png"
+//     bodyTex[tl] = "D:\\Project1\\Project1\\Graphics\\body_tl.png"
+//     bodyTex[tr] = "D:\\Project1\\Project1\\Graphics\\body_tr.png"
+//     bodyTex[h] = "D:\\Project1\\Project1\\Graphics\\body_horizontal.png"
+//     bodyTex[v] = "D:\\Project1\\Project1\\Graphics\\body_vertical.png"
+// }
+// texture = IMG_LoadTexture(renderer,bodyTex[h]);
+// std::deque<SDL_Texture> snakeBodyTexture{texture};
+// void decideBodyTex(){
+//     if(snakeBodyTexture.front() =)
+// }
 void updateHead() {
+
     // Move the snake
     if(!(direction.x == 0 && direction.y ==0)){
         head.x = snake.front().x + direction.x;
@@ -88,7 +108,23 @@ void checkCollisions() {
     }
     
 }
-Mix_Chunk* eatSound = Mix_LoadWAV("D:\\Project1\\crunch.wav");
+// Mix_Chunk* eatSound = Mix_LoadWAV("D:\\Project1\\crunch.wav");
+std::pair<SDL_Rect,SDL_Rect> telefood;
+
+void makeTLfood(){
+        telefood.first = {rand() % (COL-2) * CELL + CELL, rand() % (ROW-2) * CELL + CELL ,CELL-1,CELL-1};
+        telefood.second = {rand() % (COL-2) * CELL + CELL, rand() % (ROW-2) * CELL + CELL ,CELL-1,CELL-1};
+}
+
+bool tele(){
+    if(head.x == telefood.first.x && head.y == telefood.first.y){
+        FoodsEated++;snake.push_front(telefood.second);return true;
+    }
+    else if(head.x == telefood.second.x && head.y == telefood.second.y){
+        FoodsEated++;snake.push_front(telefood.first);return true;
+    }
+    else return false;
+}
 void eatFood() {
 
     for (SDL_Rect& food : foods)
@@ -97,13 +133,13 @@ void eatFood() {
                 && (food.y > segment.y - CELL && food.y < segment.y + CELL)
                 ) 
             {
-                Mix_PlayChannel(-1, eatSound, 0);
+                // Mix_PlayChannel(-1, eatSound, 0);
                 food.x = -CELL; food.y = -CELL; FoodsEated++;
                 
                 //Make snake longer
                 SnakeSize += 1;
                 //Increase speed
-                delay-=3;
+                delay-=(20/FoodsEated);
                 //Add food
             foods.push_back({ rand() % (COL-2) * CELL + CELL, rand() % (ROW-2) * CELL + CELL , CELL, CELL});
 
@@ -121,6 +157,8 @@ void renderBaseGame() {
     for (SDL_Rect& food : foods) {
         SDL_RenderCopy(renderer,texture,NULL,&food);
     }
+    SDL_RenderCopy(renderer,texture,NULL,&telefood.first);
+    SDL_RenderCopy(renderer,texture,NULL,&telefood.second);
     // Draw the snake /blue
     SDL_SetRenderDrawColor(renderer, 60, 100, 220, SDL_ALPHA_OPAQUE);
     for (SDL_Rect& segment : snake) {
@@ -136,7 +174,7 @@ void renderBaseGame() {
 }
 
 bool Initialize() {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
         std::cout << "SDL initialization failed: " << SDL_GetError() << std::endl;
         return false;
     }
@@ -177,7 +215,7 @@ void Shutdown() {
     SDL_DestroyTexture(texture);
     texture = NULL;
 
-    Mix_FreeChunk(eatSound);
+    // Mix_FreeChunk(eatSound);
     SDL_Quit();
     TTF_Quit();
     IMG_Quit();

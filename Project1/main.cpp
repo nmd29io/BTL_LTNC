@@ -1,11 +1,12 @@
-#include"game.h"
+ #include"game.h"
 #include"menu.h"
-#include"button.h"
-
 
 
 int main(int argc, char** argv)
 {
+srand(time(NULL));
+makeTLfood();
+    
 
 const char* path[13];
 int frame = 1;
@@ -23,29 +24,34 @@ path[10]="D:\\Project1\\snakeEye\\snakeEye10.png";
 path[11]="D:\\Project1\\snakeEye\\snakeEye11.png";
 path[12]="D:\\Project1\\snakeEye\\snakeEye12.png";
 
-
+    initSnake();
     if (Initialize()) {
         while (running) {
             SDL_Event event;
             while (SDL_PollEvent(&event)) {
+                // SDL_GetMouseState(&x,&y);std::cerr<<x<<", "<<y<<std::endl;
+                
+
                 if (event.type == SDL_QUIT) {
                     running = false;
                 }
                 else if (event.type == SDL_KEYDOWN) {
+                    
+                    
                     switch (event.key.keysym.sym) {
-                    case SDLK_UP:
+                    case SDLK_UP:pause = false;
                         if(direction.y == 0)
                         {direction.x = 0; direction.y = -CELL;}
                         break;
-                    case SDLK_DOWN:
+                    case SDLK_DOWN:pause = false;
                         if(direction.y == 0)
                         {direction.x = 0; direction.y = CELL;}
                         break;
-                    case SDLK_LEFT:
+                    case SDLK_LEFT:pause = false;
                         if(direction.x == 0)
                         {direction.x = -CELL; direction.y = 0;}
                         break;
-                    case SDLK_RIGHT:
+                    case SDLK_RIGHT:pause = false;
                         if(direction.x == 0)
                         {direction.x = CELL; direction.y = 0;}
                         break;
@@ -57,12 +63,16 @@ path[12]="D:\\Project1\\snakeEye\\snakeEye12.png";
                         break;
                     }
                 }
-            }
+            }  
+            
+
             if(pause){
                 goto here;
+
             }
             updateHead();
             checkCollisions();
+            here:
             if(lose){
 
                 gameOver();SDL_Delay(50);
@@ -70,10 +80,10 @@ path[12]="D:\\Project1\\snakeEye\\snakeEye12.png";
             else{
             
             
-            createFoods();
+            // createFoods();
                  
             
-            
+            if(tele()){makeTLfood();}
             eatFood();
         
 
@@ -84,9 +94,11 @@ path[12]="D:\\Project1\\snakeEye\\snakeEye12.png";
             frame++;
             }
                 score();
-            here:
+            
             SDL_RenderPresent(renderer);
             SDL_Delay(delay);
+
+
         }
     }
     Shutdown();
