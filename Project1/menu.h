@@ -12,7 +12,7 @@ void gameOver(){
 
     // SDL_RenderFillRect(renderer,)
     
-	auto* font = TTF_OpenFont("D:\\Project1\\VT323\\VT323-Regular.ttf",50);
+	auto* font = TTF_OpenFont("D:\\Project1\\VT323\\VT323-Regular.ttf",CELL - 4);
 	SDL_Color textColor = { 255, 255, 255,255};
 
 	auto *textSurface = TTF_RenderText_Solid(font,"Game Over! Press 'R' to replay.", textColor);
@@ -47,7 +47,7 @@ void score(){
             highScore_ = FoodsEated;
             SaveHighScore();
     }
-	auto* font = TTF_OpenFont("D:\\Project1\\VT323\\VT323-Regular.ttf",40);
+	auto* font = TTF_OpenFont("D:\\Project1\\VT323\\VT323-Regular.ttf",CELL - 4);
 
 
 	SDL_Color textColor = {200, 255, 255, 255}; 

@@ -83,7 +83,7 @@ path[12]="D:\\Project1\\snakeEye\\snakeEye12.png";
             // createFoods();
                  
             
-            if(tele()){makeTLfood();}
+            if(tele()){delay-=(20/FoodsEated);makeTLfood();}
             eatFood();
         
 
@@ -97,6 +97,7 @@ path[12]="D:\\Project1\\snakeEye\\snakeEye12.png";
             
             SDL_RenderPresent(renderer);
             SDL_Delay(delay);
+            // std::cout<<delay<<std::endl;
 
 
         }

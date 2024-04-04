@@ -8,9 +8,10 @@
 #include<deque>
 const int FOOD = 2;
 const int COL = 24;
-const int ROW = 18;
-const int CELL = 44;
-int delay = 150;
+const int ROW = 24;
+const int CELL = 40;
+const int DELAY = 150;
+int delay = DELAY;
 SDL_Window* window;
 SDL_Renderer* renderer;
 SDL_Texture* texture;
@@ -47,7 +48,7 @@ void createFoods() {
 }bool lose =false;
 void makeTLfood();
 void replay(){
-    delay = 150;
+    delay = DELAY;
     lose =false;
     snake.clear();
     foods.clear();
@@ -114,14 +115,18 @@ std::pair<SDL_Rect,SDL_Rect> telefood;
 void makeTLfood(){
         telefood.first = {rand() % (COL-2) * CELL + CELL, rand() % (ROW-2) * CELL + CELL ,CELL-1,CELL-1};
         telefood.second = {rand() % (COL-2) * CELL + CELL, rand() % (ROW-2) * CELL + CELL ,CELL-1,CELL-1};
+        
+
 }
 
 bool tele(){
     if(head.x == telefood.first.x && head.y == telefood.first.y){
-        FoodsEated++;snake.push_front(telefood.second);return true;
+        head = telefood.second;
+        FoodsEated++;snake.push_front(head);SnakeSize += 1;return true;
     }
     else if(head.x == telefood.second.x && head.y == telefood.second.y){
-        FoodsEated++;snake.push_front(telefood.first);return true;
+        head = telefood.first;
+        FoodsEated++;snake.push_front(head);SnakeSize += 1;return true;
     }
     else return false;
 }
@@ -139,7 +144,7 @@ void eatFood() {
                 //Make snake longer
                 SnakeSize += 1;
                 //Increase speed
-                delay-=(20/FoodsEated);
+                delay-=(10/FoodsEated);
                 //Add food
             foods.push_back({ rand() % (COL-2) * CELL + CELL, rand() % (ROW-2) * CELL + CELL , CELL, CELL});
 
@@ -147,6 +152,7 @@ void eatFood() {
             }
 
 }
+SDL_Rect temp;
 void renderBaseGame() {
     // Clear background /green
     SDL_SetRenderDrawColor(renderer, 150, 200, 50, SDL_ALPHA_OPAQUE);
@@ -162,13 +168,15 @@ void renderBaseGame() {
     // Draw the snake /blue
     SDL_SetRenderDrawColor(renderer, 60, 100, 220, SDL_ALPHA_OPAQUE);
     for (SDL_Rect& segment : snake) {
+        // if(segment != snake.front && segment != snake.back)
         SDL_RenderFillRect(renderer, &segment);
 
     }
     // Draw snake head detail
     SDL_SetRenderDrawColor(renderer, 20, 20, 220, SDL_ALPHA_OPAQUE);
+
     SDL_RenderFillRect(renderer, &head);
-    // Draw wall
+    //// Draw wall
     SDL_SetRenderDrawColor(renderer, 20, 20, 220, SDL_ALPHA_OPAQUE);
     SDL_RenderDrawRect(renderer,&wall);
 }
