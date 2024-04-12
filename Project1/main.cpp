@@ -25,12 +25,49 @@ path[11]="D:\\Project1\\snakeEye\\snakeEye11.png";
 path[12]="D:\\Project1\\snakeEye\\snakeEye12.png";
 
     initSnake();
+
     if (Initialize()) {
+        
+        SDL_Event event;
+        int x,y;
+        SDL_Color white{255,255,255,255};
+        SDL_Color red{255,0,0,255};
+
+        renderStartMenu(white);
+        renderQuit(white);
+        while (StartMenu){
+            while (SDL_PollEvent(&event)&&StartMenu) {
+
+                SDL_GetMouseState(&x,&y);
+                if (event.type == SDL_QUIT) {StartMenu = false;running = false;}
+                if(StartMenu
+                && x > startButton.x 
+                && x < startButton.w + startButton.x
+                && y > startButton.y
+                && y < startButton.h + startButton.y){
+                    renderStartMenu(red);
+                    if(event.type == SDL_MOUSEBUTTONDOWN)
+                        StartMenu = false;
+                }
+                else renderStartMenu(white);
+                if(StartMenu
+                && x > quitButton.x 
+                && x < quitButton.w + quitButton.x
+                && y > quitButton.y
+                && y < quitButton.h + quitButton.y){
+                    renderQuit(red);
+                    if(event.type == SDL_MOUSEBUTTONDOWN)
+                        {StartMenu = false;running = false;}
+                }
+                else renderQuit(white);
+            }
+            SDL_RenderPresent(renderer);
+            SDL_Delay(100);
+        }
         while (running) {
-            SDL_Event event;
-            while (SDL_PollEvent(&event)) {
-                // SDL_GetMouseState(&x,&y);std::cerr<<x<<", "<<y<<std::endl;
-                
+
+            
+            while (SDL_PollEvent(&event)) {                
 
                 if (event.type == SDL_QUIT) {
                     running = false;
@@ -97,7 +134,6 @@ path[12]="D:\\Project1\\snakeEye\\snakeEye12.png";
             
             SDL_RenderPresent(renderer);
             SDL_Delay(delay);
-            // std::cout<<delay<<std::endl;
 
 
         }

@@ -109,7 +109,7 @@ void checkCollisions() {
     }
     
 }
-// Mix_Chunk* eatSound = Mix_LoadWAV("D:\\Project1\\crunch.wav");
+Mix_Chunk* eatSound = Mix_LoadWAV("D:\\Project1\\crunch.wav");
 std::pair<SDL_Rect,SDL_Rect> telefood;
 
 void makeTLfood(){
@@ -168,7 +168,6 @@ void renderBaseGame() {
     // Draw the snake /blue
     SDL_SetRenderDrawColor(renderer, 60, 100, 220, SDL_ALPHA_OPAQUE);
     for (SDL_Rect& segment : snake) {
-        // if(segment != snake.front && segment != snake.back)
         SDL_RenderFillRect(renderer, &segment);
 
     }
