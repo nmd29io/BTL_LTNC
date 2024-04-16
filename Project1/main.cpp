@@ -26,7 +26,7 @@ path[12]="snakeEye\\snakeEye12.png";
     initSnake();
     Initialize();
     eatSound = Mix_LoadWAV("sound/crunch.wav");
-    //Mix_PlayChannel(-1, eatSound, 0);
+    Mix_PlayChannel(-1, eatSound, 0);
     if (running) {
 
         SDL_Event event;
