@@ -11,7 +11,7 @@ SDL_Surface *textSurface;
 TTF_Font *font;
 SDL_Color* color;
 void renderQuit(SDL_Color Color){
-    font = TTF_OpenFont("D:\\Project1\\VT323\\VT323-Regular.ttf",CELL*2);
+    font = TTF_OpenFont("VT323\\VT323-Regular.ttf",CELL*2);
     
     textSurface = TTF_RenderText_Solid(font,"Quit", Color);
     texture = SDL_CreateTextureFromSurface(renderer, textSurface);
@@ -24,7 +24,7 @@ void renderQuit(SDL_Color Color){
 
 }
 void renderStartMenu(SDL_Color Color){
-    font = TTF_OpenFont("D:\\Project1\\VT323\\VT323-Regular.ttf",CELL*2);
+    font = TTF_OpenFont("VT323/VT323-Regular.ttf",CELL*2);
     
 
     textSurface = TTF_RenderText_Solid(font,"START", Color);
@@ -38,7 +38,7 @@ void renderStartMenu(SDL_Color Color){
     SDL_RenderCopy(renderer, texture, NULL, &startButton);
 }
 void gameOver(){
-	auto* font = TTF_OpenFont("D:\\Project1\\VT323\\VT323-Regular.ttf",1.5*CELL - 4);
+	auto* font = TTF_OpenFont("VT323\\VT323-Regular.ttf",1.5*CELL - 4);
 	SDL_Color textColor = { 255, 255, 255,255};
 
 	textSurface = TTF_RenderText_Solid(font,"Game Over! Press 'R' to replay.", textColor);
@@ -73,7 +73,7 @@ void score(){
             highScore_ = FoodsEated;
             SaveHighScore();
     }
-	auto* font = TTF_OpenFont("D:\\Project1\\VT323\\VT323-Regular.ttf",CELL - 4);
+	auto* font = TTF_OpenFont("VT323\\VT323-Regular.ttf",CELL - 4);
 
 
 	SDL_Color textColor = {200, 255, 255, 255}; 

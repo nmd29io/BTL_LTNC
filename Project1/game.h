@@ -15,6 +15,7 @@ int delay = DELAY;
 SDL_Window* window;
 SDL_Renderer* renderer;
 SDL_Texture* texture;
+Mix_Chunk *eatSound ;
 
 SDL_Rect wall{CELL,CELL,COL * CELL - 2*CELL,ROW * CELL - 2*CELL};
 SDL_Rect head{ COL * CELL / 6,ROW * CELL / 2,CELL-1,CELL-1};
@@ -58,21 +59,7 @@ void replay(){
     makeTLfood();
     initSnake();
 }
-// //body texture
-// enum{    bl,br,tl,tr,h,v    };
-// std::deque<string> bodyTex[6]{
-//     bodyTex[bl] = "D:\\Project1\\Project1\\Graphics\\body_bl.png"
-//     bodyTex[br] = "D:\\Project1\\Project1\\Graphics\\body_br.png"
-//     bodyTex[tl] = "D:\\Project1\\Project1\\Graphics\\body_tl.png"
-//     bodyTex[tr] = "D:\\Project1\\Project1\\Graphics\\body_tr.png"
-//     bodyTex[h] = "D:\\Project1\\Project1\\Graphics\\body_horizontal.png"
-//     bodyTex[v] = "D:\\Project1\\Project1\\Graphics\\body_vertical.png"
-// }
-// texture = IMG_LoadTexture(renderer,bodyTex[h]);
-// std::deque<SDL_Texture> snakeBodyTexture{texture};
-// void decideBodyTex(){
-//     if(snakeBodyTexture.front() =)
-// }
+
 void updateHead() {
 
     // Move the snake
@@ -109,7 +96,6 @@ void checkCollisions() {
     }
     
 }
-Mix_Chunk* eatSound = Mix_LoadWAV("D:\\Project1\\crunch.wav");
 std::pair<SDL_Rect,SDL_Rect> telefood;
 
 void makeTLfood(){
@@ -159,7 +145,7 @@ void renderBaseGame() {
     SDL_RenderClear(renderer);
 
     // Draw foods /red
-    texture = IMG_LoadTexture(renderer, "D:\\Project1\\food.png"); 
+    texture = IMG_LoadTexture(renderer, "food\\food.png"); 
     for (SDL_Rect& food : foods) {
         SDL_RenderCopy(renderer,texture,NULL,&food);
     }
@@ -222,7 +208,6 @@ void Shutdown() {
     SDL_DestroyTexture(texture);
     texture = NULL;
 
-    // Mix_FreeChunk(eatSound);
     SDL_Quit();
     TTF_Quit();
     IMG_Quit();

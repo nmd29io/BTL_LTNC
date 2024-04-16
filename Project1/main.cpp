@@ -6,33 +6,34 @@ int main(int argc, char** argv)
 {
 srand(time(NULL));
 makeTLfood();
-    
 
 const char* path[13];
 int frame = 1;
-path[0]="D:\\Project1\\snakeEye\\snakeEye1.png";
-path[1]="D:\\Project1\\snakeEye\\snakeEye1.png";
-path[2]="D:\\Project1\\snakeEye\\snakeEye2.png";
-path[3]="D:\\Project1\\snakeEye\\snakeEye3.png";
-path[4]="D:\\Project1\\snakeEye\\snakeEye4.png";
-path[5]="D:\\Project1\\snakeEye\\snakeEye5.png";
-path[6]="D:\\Project1\\snakeEye\\snakeEye6.png";
-path[7]="D:\\Project1\\snakeEye\\snakeEye7.png";
-path[8]="D:\\Project1\\snakeEye\\snakeEye8.png";
-path[9]="D:\\Project1\\snakeEye\\snakeEye9.png";
-path[10]="D:\\Project1\\snakeEye\\snakeEye10.png";
-path[11]="D:\\Project1\\snakeEye\\snakeEye11.png";
-path[12]="D:\\Project1\\snakeEye\\snakeEye12.png";
+path[0]="snakeEye\\snakeEye1.png";
+path[1]="snakeEye\\snakeEye1.png";
+path[2]="snakeEye\\snakeEye2.png";
+path[3]="snakeEye\\snakeEye3.png";
+path[4]="snakeEye\\snakeEye4.png";
+path[5]="snakeEye\\snakeEye5.png";
+path[6]="snakeEye\\snakeEye6.png";
+path[7]="snakeEye\\snakeEye7.png";
+path[8]="snakeEye\\snakeEye8.png";
+path[9]="snakeEye\\snakeEye9.png";
+path[10]="snakeEye\\snakeEye10.png";
+path[11]="snakeEye\\snakeEye11.png";
+path[12]="snakeEye\\snakeEye12.png";
 
     initSnake();
+    Initialize();
+    eatSound = Mix_LoadWAV("sound/crunch.wav");
+    //Mix_PlayChannel(-1, eatSound, 0);
+    if (running) {
 
-    if (Initialize()) {
-        
         SDL_Event event;
         int x,y;
         SDL_Color white{255,255,255,255};
         SDL_Color red{255,0,0,255};
-
+        
         renderStartMenu(white);
         renderQuit(white);
         while (StartMenu){
@@ -120,7 +121,12 @@ path[12]="D:\\Project1\\snakeEye\\snakeEye12.png";
             // createFoods();
                  
             
-            if(tele()){delay-=(20/FoodsEated);makeTLfood();}
+            if(tele()){
+
+                delay-=(20/FoodsEated);
+                makeTLfood();
+                
+            }
             eatFood();
         
 
@@ -128,6 +134,8 @@ path[12]="D:\\Project1\\snakeEye\\snakeEye12.png";
 
                 texture = IMG_LoadTexture(renderer, path[frame%13]); 
                 SDL_RenderCopy(renderer,texture,NULL,&head);
+
+
             frame++;
             }
                 score();
@@ -139,6 +147,7 @@ path[12]="D:\\Project1\\snakeEye\\snakeEye12.png";
         }
     }
     Shutdown();
+    Mix_FreeChunk(eatSound);
 
 	return 0;
 }
