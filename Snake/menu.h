@@ -7,7 +7,7 @@ bool StartMenu = true;
 
 int highScore;
 
-   
+
 
 
 void SaveHighScore() {
@@ -30,12 +30,12 @@ void renderScore(Text &score){
             highScore = FoodsEated;
             SaveHighScore();
     }
-    std::string scoreText = "press space to pause     Score: " + std::to_string(FoodsEated)+"   High score: "+std::to_string(highScore);
+    std::string scoreText = "" + std::to_string(FoodsEated)+"  "+std::to_string(highScore);
     score.setText(scoreText);
-    score.renderText(100,2, white);
+    score.renderText(80,45, white);
 }
 
-void handleStartMenu(SDL_Event &e, State &state, SDL_Texture* menuBg, Text &title, Text &playText, Text &exitText){
+void handleStartMenu(SDL_Event &e, State &state, SDL_Texture* menuBg, Text &title, Text &playText, Text &exitText, Mix_Chunk* clickSound){
 
                 while (SDL_PollEvent(&e)) {
                     SDL_RenderCopy(renderer,menuBg,NULL,NULL);
@@ -45,11 +45,11 @@ void handleStartMenu(SDL_Event &e, State &state, SDL_Texture* menuBg, Text &titl
                     //play
                     if(isInRect(e.motion.x,e.motion.y,playText.getRect())) {
                         playText.renderText(420,420,green,red);
-                        if(e.type == SDL_MOUSEBUTTONDOWN) state = INGAME;
+                        if(e.type == SDL_MOUSEBUTTONDOWN){Mix_PlayChannel(-1,clickSound,0); state = INGAME;}
                     }
                     else{
                         playText.renderText(420,420,white);
-                    }   
+                    }
                     //exit
                     if(isInRect(e.motion.x,e.motion.y,exitText.getRect())) {
                         exitText.renderText(420,500,green,red);

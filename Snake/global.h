@@ -6,17 +6,23 @@
 #include<SDL_mixer.h>
 #include <bits/stdc++.h>
 
+
+bool soundhasnotplay = true;
 enum State
 {
-    STARTMENU,
+    START,
     INGAME,
+    MENU,
     EXIT
 };
+enum{SETING,RESTART,RESUME,ID};
+enum{FOOD,BOARD};
+
 SDL_Color white{255,255,255,255};
+SDL_Color black{0,0,0,255};
 SDL_Color red{179,85,93,255};
 SDL_Color green{153,229,80,255};
 
-const int FOOD = 2;
 const int COL = 24;
 const int ROW = 24;
 const int CELL = 40;
@@ -30,11 +36,11 @@ SDL_Rect head{ COL * CELL / 6,ROW * CELL / 2,CELL,CELL};
 std::deque<SDL_Rect> snake;
 int SnakeSize = 3;
 
-SDL_Rect direction{ CELL,0 };
-
-std::vector<SDL_Rect> foods;
+SDL_Point direction{ CELL,0 };
+void setDir(int x, int y){
+    direction.x = y; direction.y = y;
+}
 std::pair<SDL_Rect,SDL_Rect> telefood;
-int FoodsNumber = FOOD;
 int FoodsEated = 0;
 
 bool isTouchBounderies = false;

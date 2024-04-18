@@ -15,37 +15,57 @@ int frame = 1;
     initSnake();
     srand(time(NULL));
     makeTLfood();
-        //Menu
-        auto* menuBg = IMG_LoadTexture(renderer,"picture/menu_bg.jpg");
+
+        //Start
+        auto* startbg = IMG_LoadTexture(renderer,"picture/startbg.jpg");
         Text title("SNAKE",100);
         Text playText("PLAY",80);
         Text exitText("EXIT",80);
         //Music
-        auto* clickSound = Mix_LoadMUS("sound/interface/click4.ogg");
-        if(Mix_PlayMusic(clickSound, -1) == -1) std::cout<<"load music false";
+        auto* clickSound = Mix_LoadWAV("sound/click.wav");
+        //menu
+        SDL_Rect scorePos{40,40,40,40};
+        auto* highScoreIconTexture = IMG_LoadTexture(renderer,"picture/Icons/Trophy.png");
+        SDL_Rect highScorePos{130,40,40,40};
+        SDL_Texture* menu[ID];
+
+        Text score(30,"font/dogicabold.ttf");
+//        menu[SCORE] = IMG_LoadTexture(renderer,)
+
         //game
+//        auto* upSound = Mix_LoadWAV("sound/   ");
+//        auto* downSound = Mix_LoadWAV("sound/   ");
+//        auto* rightSound = Mix_LoadWAV("sound/   ");
+//        auto* leftSound = Mix_LoadWAV("sound/   ");
         auto* eatSound = Mix_LoadWAV("sound/crunch.wav");
         auto* deathSound = Mix_LoadWAV("sound/death.wav");
-        auto* board = IMG_LoadTexture(renderer,"picture/board.png");
-        auto* foodTexture = IMG_LoadTexture(renderer, "graphics/food.png");
-        auto *bodyTexture = IMG_LoadTexture(renderer, "picture/body.png");
-        auto *headTexture = IMG_LoadTexture(renderer, "picture/head.png");
-        Text score(36);
-        Text gomeOverText("Game Over! Press 'R' to replay.",55);
+        auto* board = IMG_LoadTexture(renderer,"picture/board2.png");
+        auto* foodTexture = IMG_LoadTexture(renderer, "picture/food2.png");
+        auto *bodyTexture = IMG_LoadTexture(renderer, "picture/shaded_body.png");
+        auto *headTexture = IMG_LoadTexture(renderer, "picture/shaded_head.png");
 
-    State state = STARTMENU;
+        Text gomeOverText("Game Over Press R to replay",55,"font/8-bit Arcade Out.ttf");
+        Text gomeOverText2("Game Over Press R to replay",55,"font/8-bit Arcade In.ttf");
+
+    State state = START;
     SDL_Event event;
-    bool quit = false;bool ok = true;
+    bool quit = false;
     while(!quit){
 
         switch(state){
-            case STARTMENU:
-                handleStartMenu(event,state,menuBg,title,playText,exitText);
+            case START://Menu.h
+                handleStartMenu(event,state,startbg,title,playText,exitText,clickSound);
                 SDL_RenderPresent(renderer);SDL_Delay(50);
             break;
-            case INGAME:
-                            // input(event,state);
-
+            case INGAME://Game.h
+                            #if 0
+                            handleInGame(event,state,
+                                         eatSound,deathSound,
+                                         board,foodTexture,bodyTexture,headTexture,
+                                         gomeOverText,gomeOverText2,
+                                         frame);
+                            #endif
+                            #if 1
                             while (SDL_PollEvent(&event))
                             {
                                 switch(event.type)
@@ -76,10 +96,11 @@ int frame = 1;
                                             pause = !pause;
                                             break;
                                         case SDLK_r:
-                                            newgame(); lose = false;ok = true;
+                                            newgame(); lose = false;soundhasnotplay = true;
                                             break;
                                         }
                                     break;
+
                                 }
                             }
 
@@ -91,11 +112,13 @@ int frame = 1;
                             checkCollisions();
                             here:
                             if(lose){
-                                if(ok){Mix_PlayChannel(-1, deathSound, 0);ok = false;}
-                                gomeOverText.renderText(140,450,white);
+                                if(soundhasnotplay){Mix_PlayChannel(-1, deathSound, 0);soundhasnotplay = false;}
+                                gomeOverText2.renderText(140,450,white);
+                                gomeOverText.renderText(140,450,black);
+
                             }
                             else{
-                            if(collisonWithTeleFood()){
+                            if(collisonWithTLFood()){
                                 Mix_PlayChannel(-1, eatSound, 0);
                                 delay-=(20/FoodsEated);
                                 makeTLfood();
@@ -109,8 +132,12 @@ int frame = 1;
 
                             frame++;
                             }
+
+                            SDL_RenderCopy(renderer,foodTexture,NULL,&scorePos);
+                            SDL_RenderCopy(renderer,highScoreIconTexture,NULL,&highScorePos);
                             renderScore(score);
                             SDL_RenderPresent(renderer);SDL_Delay(delay);
+                            #endif
             break;
             case EXIT:
                 quit = true;

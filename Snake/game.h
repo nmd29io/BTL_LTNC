@@ -3,7 +3,7 @@
 
 bool isInRect(int &x, int &y, SDL_Rect rect){
     return x > rect.x && x < rect.w + rect.x && y > rect.y && y < rect.h + rect.y;
-} 
+}
 void initSnake(){
     snake.resize(3);
     SnakeSize = 3;
@@ -18,8 +18,6 @@ void newgame(){
     delay = DELAY;
     lose =false;
     snake.clear();
-    foods.clear();
-    FoodsNumber=FOOD;
     FoodsEated =0;
     direction.x=CELL;direction.y=0;
     makeTLfood();
@@ -45,42 +43,44 @@ void checkCollisions() {
 
         }
     }
-
     // Check for collisions with window boundaries
-    if (    head.x > COL * CELL - CELL -CELL 
-        ||  head.y > ROW * CELL - CELL -CELL 
-        ||  head.x < CELL 
-        ||  head.y < CELL 
-        ) 
+    if (    head.x > COL * CELL - CELL -CELL
+        ||  head.y > ROW * CELL - CELL -CELL
+        ||  head.x < CELL
+        ||  head.y < CELL * 4
+        )
     {
         lose=true;
-        direction.x=-direction.x;
-        direction.y=-direction.y;
-
-
+        setDir(0,0);
     }
-    
 }
 
 SDL_Rect ramdomCell(){
     SDL_Rect res;
     res.x = rand() % (COL-2) * CELL + CELL;
-    res.y = rand() % (ROW-2) * CELL + CELL;
+    res.y = rand() % (ROW-5) * CELL + 4*CELL;
     res.w = CELL; res.h = CELL;
     return res;
 }
 void makeTLfood(){
         telefood.first = ramdomCell();
         telefood.second = ramdomCell();
-        
-
+        //Check intersect snake
+        for(SDL_Rect& segment : snake){
+            if(SDL_HasIntersection(&segment,&telefood.first)){
+                telefood.first = ramdomCell();
+            }
+            if(SDL_HasIntersection(&segment,&telefood.second)){
+                telefood.second = ramdomCell();
+            }
+        }
 }
 
-bool collisonWithTeleFood(){
+bool collisonWithTLFood(){
     if(SDL_HasIntersection(&head,&telefood.first)){
         head = telefood.second;
         FoodsEated++;snake.push_front(head);SnakeSize += 1;return true;
-    }    
+    }
     if(SDL_HasIntersection(&head,&telefood.second)){
         head = telefood.first;
         FoodsEated++;snake.push_front(head);SnakeSize += 1;return true;
@@ -89,28 +89,33 @@ bool collisonWithTeleFood(){
 }
 
 void renderGame(SDL_Texture *board, SDL_Texture *foodTexture, SDL_Texture *bodyTexture,SDL_Texture *headTexture) {
-
+    SDL_Rect temp;
     //board
     SDL_RenderCopy(renderer,board,NULL,NULL);
 
-    // Draw foods /
-    SDL_RenderCopy(renderer,foodTexture,NULL,&telefood.first);
-    SDL_RenderCopy(renderer,foodTexture,NULL,&telefood.second);
+    // Draw foods
+    temp = telefood.first; temp.h += 5;
+    SDL_RenderCopy(renderer,foodTexture,NULL,&temp);
+    temp = telefood.second; temp.h += 5;
+    SDL_RenderCopy(renderer,foodTexture,NULL,&temp);
 
-    // Draw snake's body
+    // Draw snake's
     SDL_SetRenderDrawColor(renderer, 60, 100, 220, SDL_ALPHA_OPAQUE);
-    for (SDL_Rect& segment : snake)
-        SDL_RenderCopy(renderer,bodyTexture,NULL,&segment);
 
-    // Draw snake head 
-    SDL_Rect pos = head;
-    pos.x -= 5;
-    pos.y -= 5;
-    pos.w += 10;
-    pos.h += 10;
-    SDL_RenderCopy(renderer,headTexture,NULL,&pos);
-
-
+    for (SDL_Rect& segment : snake){
+        temp = segment;
+        if(SDL_HasIntersection(&temp,&head)){
+            temp.x -= 5;
+            temp.y -= 5;
+            temp.w += 10;
+            temp.h += 15;
+            SDL_RenderCopy(renderer,headTexture,NULL,&temp);
+        }
+        else{
+            temp.h += 5;
+            SDL_RenderCopy(renderer,bodyTexture,NULL,&temp);
+        }
+    }
 }
 
 

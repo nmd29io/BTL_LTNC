@@ -1,32 +1,33 @@
 # depslib dependency file v1.0
-1713398503 source:d:\btl_ltnc\snake\main.cpp
+1713437790 source:d:\btl_ltnc\snake\main.cpp
 	"game.h"
 	"menu.h"
 	"text.h"
 	"sdl_setup.h"
 	"input.h"
 
-1713390242 d:\btl_ltnc\snake\game.h
+1713437812 d:\btl_ltnc\snake\game.h
 	"global.h"
 
-1713389267 d:\btl_ltnc\snake\global.h
+1713437790 d:\btl_ltnc\snake\global.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
 	<SDL_mixer.h>
 	<bits/stdc++.h>
 
-1713389915 d:\btl_ltnc\snake\menu.h
+1713430798 d:\btl_ltnc\snake\menu.h
 	"text.h"
 	"game.h"
 	"global.h"
 
-1713385382 d:\btl_ltnc\snake\text.h
+1713422019 d:\btl_ltnc\snake\text.h
 	"global.h"
 
 1713378720 d:\btl_ltnc\snake\sdl_setup.h
 	"global.h"
 
-1713388561 d:\btl_ltnc\snake\input.h
+1713437154 d:\btl_ltnc\snake\input.h
 	"game.h"
+	"global.h"
 
