@@ -3,12 +3,7 @@
 #include "game.h"
 #include "global.h"
 
-bool StartMenu = true;
-
 int highScore;
-
-
-
 
 void SaveHighScore() {
     std::ofstream file("highscore.txt");
@@ -24,39 +19,46 @@ void LoadHighScore() {
         file.close();
     }
 }
-void renderScore(Text &score){
+void renderScore(Text* score){
     LoadHighScore();
     if (FoodsEated > highScore) {
             highScore = FoodsEated;
             SaveHighScore();
     }
     std::string scoreText = "" + std::to_string(FoodsEated)+"  "+std::to_string(highScore);
-    score.setText(scoreText);
-    score.renderText(80,45, white);
+    score->setText(scoreText);
+    score->renderText(80,45, white);
 }
-
-void handleStartMenu(SDL_Event &e, State &state, SDL_Texture* menuBg, Text &title, Text &playText, Text &exitText, Mix_Chunk* clickSound){
+void handleStartMenu(SDL_Event &e, State &state, SDL_Texture* pictures[], Mix_Chunk* chunks[], Text* texts[]){
+    SDL_Rect temp;
 
                 while (SDL_PollEvent(&e)) {
-                    SDL_RenderCopy(renderer,menuBg,NULL,NULL);
+
+
+                    SDL_RenderCopy(renderer,pictures[StartBg],NULL,NULL);
+
                     if (e.type == SDL_QUIT) state = EXIT;
-                    //game title
-                    title.renderText(420,300,white);
+                    SDL_GetMouseState(&m.x,&m.y);
                     //play
-                    if(isInRect(e.motion.x,e.motion.y,playText.getRect())) {
-                        playText.renderText(420,420,green,red);
-                        if(e.type == SDL_MOUSEBUTTONDOWN){Mix_PlayChannel(-1,clickSound,0); state = INGAME;}
-                    }
-                    else{
-                        playText.renderText(420,420,white);
+                    texts[Play]->setFont(80);
+                    texts[Play]->renderText(400,400,white);
+                    temp = texts[Play]->getRect();
+                    if(SDL_PointInRect(&m,&temp ) ){
+                        texts[Play]->setFont(80,"font/8-bit Arcade Out.ttf");
+                        texts[Play]->renderText(400,400,black);
+                        if(e.type == SDL_MOUSEBUTTONDOWN){Mix_PlayChannel(-1,chunks[Start],0); state = INGAME;}
                     }
                     //exit
-                    if(isInRect(e.motion.x,e.motion.y,exitText.getRect())) {
-                        exitText.renderText(420,500,green,red);
+                    texts[Exit]->setFont(80);
+                    texts[Exit]->renderText(430,500,white);
+                    temp = texts[Exit]->getRect();
+                    if(SDL_PointInRect(&m,&temp ) ){
+                        texts[Exit]->setFont(80,"font/8-bit Arcade Out.ttf");
+                        texts[Exit]->renderText(430,500,black);
                         if(e.type == SDL_MOUSEBUTTONDOWN) state = EXIT;
                     }
-                    else{
-                        exitText.renderText(420,500,white);
-                    }
+
                 }
+                SDL_RenderPresent(renderer);SDL_Delay(50);
+
 }

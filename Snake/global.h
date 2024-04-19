@@ -6,17 +6,20 @@
 #include<SDL_mixer.h>
 #include <bits/stdc++.h>
 
+enum State{    START,    INGAME,    EXIT};
+/***icons enum ***/
+enum{Score,Trophy,Option,SpeakerMute,SpeakerOn,Icons};
+/***pictures enum ***/
+enum{StartBg,Food,Head,Body,Tail,Curve,Board,Pictures};
+/***chunks enum***/
+enum{Start,Eat,Death,Chunks};bool mute = false;
+/***Text enum ***/
+enum{Play,Exit,GameOver,GameOver2,Point,Texts};
 
+enum Mode{Normal, Tele };Mode mode = Normal;
 bool soundhasnotplay = true;
-enum State
-{
-    START,
-    INGAME,
-    MENU,
-    EXIT
-};
-enum{SETING,RESTART,RESUME,ID};
-enum{FOOD,BOARD};
+SDL_Rect text_pos[20];
+
 
 SDL_Color white{255,255,255,255};
 SDL_Color black{0,0,0,255};
@@ -26,25 +29,53 @@ SDL_Color green{153,229,80,255};
 const int COL = 24;
 const int ROW = 24;
 const int CELL = 40;
-const int DELAY = 150;
-
-int delay = DELAY;
-SDL_Window* window;
-SDL_Renderer* renderer;
-
-SDL_Rect head{ COL * CELL / 6,ROW * CELL / 2,CELL,CELL};
+const int INIT_SIZE = 3;
+const int INIT_DELAY = 120;
+int delay = INIT_DELAY;
+SDL_Window* window = NULL;
+SDL_Renderer* renderer = NULL;
+SDL_Point m;
+SDL_Rect head;
 std::deque<SDL_Rect> snake;
-int SnakeSize = 3;
+int SnakeSize = INIT_SIZE;
 
-SDL_Point direction{ CELL,0 };
-void setDir(int x, int y){
-    direction.x = y; direction.y = y;
-}
-std::pair<SDL_Rect,SDL_Rect> telefood;
+std::queue<SDL_Point> q_dir;
+SDL_Point dir{ CELL,0 };
+
+
+
 int FoodsEated = 0;
+int cellState[24][24]={
+{9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9},
+{9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9},
+{9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9},
+{9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9},
+{9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9},
+};
 
-bool isTouchBounderies = false;
-bool isTouchSnakeBody = false;
+
+
+SDL_Rect food;
+std::pair<SDL_Rect,SDL_Rect> telefood;
 
 bool pause = false;
 
