@@ -28,7 +28,7 @@ void renderScore(Text* score){
     score->setText(std::to_string(FoodsEated));
     score->renderText(80,45, white);
     score->setText(std::to_string(highScore));
-    score->renderText(170,45, white);
+    score->renderText(235,45, white);
 }
 void handleStartMenu(SDL_Event &e, State &state, SDL_Texture* pictures[], Mix_Chunk* chunks[], Text* texts[]){
     SDL_Rect temp;
@@ -58,8 +58,6 @@ void handleStartMenu(SDL_Event &e, State &state, SDL_Texture* pictures[], Mix_Ch
                         texts[Exit]->renderText(430,500,black);
                         if(e.type == SDL_MOUSEBUTTONDOWN) state = EXIT;
                     }
-
                 }
-                SDL_RenderPresent(renderer);SDL_Delay(50);
 
 }

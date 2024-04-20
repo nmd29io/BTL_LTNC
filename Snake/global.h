@@ -16,7 +16,7 @@ enum{Start,Eat,Death,Chunks};bool mute = false;
 /***Text enum ***/
 enum{Play,Exit,GameOver,GameOver2,Point,Texts};
 
-enum Mode{Normal, Tele };Mode mode = Normal;
+enum Mode{Normal, Tele, Fly};Mode mode = Normal;
 bool soundhasnotplay = true;
 SDL_Rect text_pos[20];
 
@@ -30,7 +30,10 @@ const int COL = 24;
 const int ROW = 24;
 const int CELL = 40;
 const int INIT_SIZE = 3;
-float FPS = 8;
+
+float FPS = 75;
+Uint32 t0,t1,delta;
+
 SDL_Window* window;
 SDL_Renderer* renderer;
 SDL_Point m;
@@ -41,7 +44,17 @@ int SnakeSize = INIT_SIZE;
 std::queue<SDL_Point> q_dir;
 SDL_Point dir;
 
+void renderAnimation(std::string path,int i, int col, int row, SDL_Rect dst, int angle, SDL_Point* center){
 
+    SDL_Texture* texture = IMG_LoadTexture(renderer, path.c_str());
+    int w,h;
+    SDL_QueryTexture(texture, NULL, NULL,&w,&h);
+    w /= col; h /= row;
+    int j = i/col;
+    SDL_Rect rect = {i*w,j*h,w,h};
+            SDL_RenderCopyEx(renderer,texture,&rect,&dst,angle,center,SDL_FLIP_NONE);
+    SDL_DestroyTexture(texture);
+}
 
 int FoodsEated = 0;
 int cellState[24][24]={

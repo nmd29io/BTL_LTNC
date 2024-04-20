@@ -14,7 +14,7 @@ int main(int argc, char** argv)
 //icons
         SDL_Texture* icons[Icons]; SDL_Rect iconsPos[Icons];
         icons[Score] = IMG_LoadTexture(renderer,"picture/food2.png");iconsPos[Score] = {40,40,40,40};
-        icons[Trophy] = IMG_LoadTexture(renderer,"picture/Icons/Trophy.png");iconsPos[Trophy] = {133,40,40,40};
+        icons[Trophy] = IMG_LoadTexture(renderer,"picture/Icons/Trophy.png");iconsPos[Trophy] = {200,40,40,40};
         icons[Option] = IMG_LoadTexture(renderer,"picture/Icons/Option.png");iconsPos[Option] = {900,40,40,40};
         icons[SpeakerOn] = IMG_LoadTexture(renderer,"picture/Icons/SpeakerOn.png");iconsPos[SpeakerOn] = {850,40,40,40};
         icons[SpeakerMute] = IMG_LoadTexture(renderer,"picture/Icons/SpeakerMute.png");iconsPos[SpeakerMute] = {850,40,40,40};
@@ -41,7 +41,19 @@ int main(int argc, char** argv)
     Mode mode = Normal;
     SDL_Event event;
     bool quit = false;
+    t1 = SDL_GetTicks();
+    delta = 0;
+
     while(!quit){
+        t0 = t1;
+        t1 = SDL_GetTicks();
+        delta = t1 - t0;
+        if(delta < 1000.0f / FPS ){
+//            std::cout<<delta<<'\n';
+            SDL_RenderPresent(renderer);
+            SDL_Delay(1000.0f / FPS - delta);
+        }
+
         switch(state){
             case START:
                 handleStartMenu(event,state,pictures,chunks,texts);
@@ -57,7 +69,6 @@ int main(int argc, char** argv)
             break;
 
         }
-
 	}
     Shutdown();
 

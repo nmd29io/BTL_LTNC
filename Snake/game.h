@@ -14,7 +14,7 @@ SDL_Rect ramdomCell(){
     for(SDL_Rect& p : snake){
         if(SDL_HasIntersection(&res,&p))
             {
-                ramdomCell();
+                return ramdomCell();
             }
     }
     return res;
@@ -76,7 +76,8 @@ void makeTLfood(){
         telefood.first = ramdomCell();
         telefood.second = ramdomCell();
         if(SDL_HasIntersection(&telefood.first,&telefood.second)) makeTLfood();
-
+        if(SDL_HasIntersection(&telefood.first,&head)) makeTLfood();
+        if(SDL_HasIntersection(&telefood.second,&head)) makeTLfood();
         setCellState(telefood.first ,2);
         setCellState(telefood.second ,2);
 
@@ -86,11 +87,11 @@ bool collisonWithTLFood(){
     if(SDL_HasIntersection(&head,&telefood.first)){
         if(mode == Tele){ head = telefood.second;}
 
-        FoodsEated++;SnakeSize ++;return true;
+        return true;
     }
     if(SDL_HasIntersection(&head,&telefood.second)){
         if(mode == Tele){ head = telefood.first;}
-        FoodsEated++;SnakeSize ++;return true;
+        return true;
     }
     else return false;
 }
@@ -99,7 +100,11 @@ void renderGame(SDL_Texture *pictures[]) {
     SDL_Rect temp;
     //board
     SDL_RenderCopy(renderer,pictures[Board],NULL,NULL);
-
+    // Draw foods
+    temp = telefood.first; temp.h += 5;
+    SDL_RenderCopy(renderer,pictures[Food],NULL,&temp);
+    temp = telefood.second; temp.h += 5;
+    SDL_RenderCopy(renderer,pictures[Food],NULL,&temp);
     // Draw snake's
     temp = snake[0];
             temp.x -= 5;
@@ -111,11 +116,7 @@ void renderGame(SDL_Texture *pictures[]) {
         temp = snake[i];temp.h += 5;
         SDL_RenderCopy(renderer,pictures[Body],NULL,&temp);
     }
-    // Draw foods
-    temp = telefood.first; temp.h += 5;
-    SDL_RenderCopy(renderer,pictures[Food],NULL,&temp);
-    temp = telefood.second; temp.h += 5;
-    SDL_RenderCopy(renderer,pictures[Food],NULL,&temp);
+
 }
 #endif // 0
 

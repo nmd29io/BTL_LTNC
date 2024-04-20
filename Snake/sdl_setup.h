@@ -1,5 +1,7 @@
 #pragma once
 #include "global.h"
+
+
 bool Initialize() {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
         std::cout << "SDL initialization failed: " << SDL_GetError() << std::endl;

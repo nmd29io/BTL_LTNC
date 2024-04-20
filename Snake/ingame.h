@@ -1,12 +1,15 @@
 #pragma once
 #include "game.h"
 #include "global.h"
-Uint32 t0,delta;
 
-void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Texture* icons[], Mix_Chunk* chunks[], Text* texts[], int &frame, SDL_Rect* iconsPos)
-{
-                            t0 = SDL_GetTicks();
+Uint32 sT0,sT1,sDelta,elapse,speed = 8;
+void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Texture* icons[], Mix_Chunk* chunks[], Text* texts[], int &frame, SDL_Rect* iconsPos){
+                        sT0 = sT1;
+                        sT1 = SDL_GetTicks();
+                        sDelta += sT1 - sT0;
+                        elapse += t1-t0;
 
+                        if(sDelta > 1000.0f / speed){sDelta = 0;
                             while (SDL_PollEvent(&e))
                             {
                                 switch(e.type)
@@ -85,14 +88,6 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                                                 else if(SDL_PointInRect(&m,&text_pos[3])){
                                                         mode = Tele;
                                                         newgame(5,15);
-
-//                                                            for(int i = 0; i < 24; i++){
-//                                                                    for(int j = 0; j < 24; j++){
-//                                                                        std::cout << cellState[i][j]<<" ";
-//                                                                    }std::cout<<std::endl;
-//
-//                                                            }std::cout<<std::endl;
-
                                                 }
                                                 else if(SDL_PointInRect(&m,&text_pos[4])){
                                                         mode = Normal;
@@ -103,6 +98,7 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                                     break;
                                 }
                             }
+
                             //update
                             if (!q_dir.empty()) {
                                     if((dir.x!=q_dir.front().x && dir.y!=q_dir.front().y)
@@ -111,30 +107,33 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                                     q_dir.pop();
                             }
                             updateHead();
+                            //check lose
                             if(checkCollisions()) lose = true;
                             //running
                             if(!lose && !pause){
-
-                                if(collisonWithTLFood()){
-                                    Mix_PlayChannel(-1, chunks[Eat], 0);
-                                    if(mode == Tele) makeTLfood();else telefood.first = ramdomCell();
-
-
-                                }
                                 updateSnake();
                             }
-
-                            {//render game
-                                renderGame(pictures);
-                                auto* eyeTexture = IMG_LoadTexture(renderer, eyePath[frame%13]);
-                                SDL_RenderCopy(renderer,eyeTexture,NULL,&snake[0]);
-                                SDL_DestroyTexture(eyeTexture);
-                                frame++;
-                            //score
-                                SDL_RenderCopy(renderer,icons[Score],NULL,&iconsPos[Score]);
-                                SDL_RenderCopy(renderer,icons[Trophy],NULL,&iconsPos[Trophy]);
-                                renderScore(texts[Point]);
+                            //check eat
+                            if(collisonWithTLFood()){
+                                    Mix_PlayChannel(-1, chunks[Eat], 0);
+                                    if(mode == Tele){
+                                        makeTLfood();
+                                    }
+                                    else telefood.first = ramdomCell();
+                                    FoodsEated++;SnakeSize ++;updateSnake();
                             }
+                        }
+
+
+                        if(elapse > 1000.0f / 12){elapse = 0;
+                            frame++;
+
+//render game>
+                            renderGame(pictures);
+                            auto* eyeTexture = IMG_LoadTexture(renderer, eyePath[frame%13]);
+                            SDL_RenderCopy(renderer,eyeTexture,NULL,&snake[0]);
+                            SDL_DestroyTexture(eyeTexture);
+
                             if(lose){
                                 texts[GameOver2]->renderText(50,200,white);
                                 texts[GameOver]->renderText(50,200,black);
@@ -153,20 +152,16 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                                 temp.renderText(400,450,white);text_pos[3] = temp.getRect();
                                 temp.setText("normal mode");
                                 temp.renderText(400,500,white);text_pos[4] = temp.getRect();
-
                             }
-
-
+                            //icon
                             mute ? SDL_RenderCopy(renderer,icons[SpeakerMute],NULL,&iconsPos[SpeakerMute])
                                     :SDL_RenderCopy(renderer,icons[SpeakerOn],NULL,&iconsPos[SpeakerOn]);
                             SDL_RenderCopy(renderer,icons[Option],NULL,&iconsPos[Option]);
+                            //score
+                                SDL_RenderCopy(renderer,icons[Score],NULL,&iconsPos[Score]);
+                                SDL_RenderCopy(renderer,icons[Trophy],NULL,&iconsPos[Trophy]);
+                                renderScore(texts[Point]);
 
-                            //present
-
-                                SDL_RenderPresent(renderer);
-
-                                delta = SDL_GetTicks() - t0;
-                                if(delta < 1000.0f / FPS )
-                                    SDL_Delay(1000.0f / FPS - delta);
+                        }
 
 }
