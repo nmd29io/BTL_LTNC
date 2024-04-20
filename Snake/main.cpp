@@ -14,7 +14,7 @@ int main(int argc, char** argv)
 //icons
         SDL_Texture* icons[Icons]; SDL_Rect iconsPos[Icons];
         icons[Score] = IMG_LoadTexture(renderer,"picture/food2.png");iconsPos[Score] = {40,40,40,40};
-        icons[Trophy] = IMG_LoadTexture(renderer,"picture/Icons/Trophy.png");iconsPos[Trophy] = {130,40,40,40};
+        icons[Trophy] = IMG_LoadTexture(renderer,"picture/Icons/Trophy.png");iconsPos[Trophy] = {133,40,40,40};
         icons[Option] = IMG_LoadTexture(renderer,"picture/Icons/Option.png");iconsPos[Option] = {900,40,40,40};
         icons[SpeakerOn] = IMG_LoadTexture(renderer,"picture/Icons/SpeakerOn.png");iconsPos[SpeakerOn] = {850,40,40,40};
         icons[SpeakerMute] = IMG_LoadTexture(renderer,"picture/Icons/SpeakerMute.png");iconsPos[SpeakerMute] = {850,40,40,40};
@@ -23,10 +23,7 @@ int main(int argc, char** argv)
         pictures[StartBg] = IMG_LoadTexture(renderer,"picture/startbg.png");
         pictures[Food] = IMG_LoadTexture(renderer,"picture/food2.png");
         pictures[Board] = IMG_LoadTexture(renderer,"picture/board.png");
-        pictures[Head] = IMG_LoadTexture(renderer, "graphics/head_right.png");
         pictures[Body] = IMG_LoadTexture(renderer, "picture/shaded_body.png");
-        pictures[Curve] = IMG_LoadTexture(renderer, "graphics/body_topleft.png");
-        pictures[Tail] = IMG_LoadTexture(renderer, "graphics/tail_left.png");
 //sound
         Mix_Chunk* chunks[Chunks];
         chunks[Start] = Mix_LoadWAV("sound/click.wav");
@@ -41,6 +38,7 @@ int main(int argc, char** argv)
         texts[Point] = new Text(30,"font/dogicabold.ttf");
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     State state = START;
+    Mode mode = Normal;
     SDL_Event event;
     bool quit = false;
     while(!quit){
@@ -57,6 +55,7 @@ int main(int argc, char** argv)
                 quit = true;
 
             break;
+
         }
 
 	}

@@ -1,11 +1,11 @@
 #pragma once
 #include "game.h"
 #include "global.h"
-
+Uint32 t0,delta;
 
 void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Texture* icons[], Mix_Chunk* chunks[], Text* texts[], int &frame, SDL_Rect* iconsPos)
 {
-
+                            t0 = SDL_GetTicks();
 
                             while (SDL_PollEvent(&e))
                             {
@@ -49,6 +49,14 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                                                 //newgame
                                                 case SDLK_r:
                                                     newgame(5,15); lose = false;soundhasnotplay = true;
+                                                    break;
+                                                case SDLK_m:
+                                                    if(mute){
+                                                            Mix_Volume(0,MIX_MAX_VOLUME);mute = false;
+                                                    }
+                                                    else{
+                                                        Mix_Volume(0,0); mute = true;
+                                                    }
                                                     break;
                                         }
                                     break;
@@ -95,7 +103,26 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                                     break;
                                 }
                             }
+                            //update
+                            if (!q_dir.empty()) {
+                                    if((dir.x!=q_dir.front().x && dir.y!=q_dir.front().y)
+                                       ||(dir.x == 0 && dir.y == 0 && q_dir.front().x != -CELL))
+                                        dir = q_dir.front();
+                                    q_dir.pop();
+                            }
+                            updateHead();
+                            if(checkCollisions()) lose = true;
+                            //running
+                            if(!lose && !pause){
 
+                                if(collisonWithTLFood()){
+                                    Mix_PlayChannel(-1, chunks[Eat], 0);
+                                    if(mode == Tele) makeTLfood();else telefood.first = ramdomCell();
+
+
+                                }
+                                updateSnake();
+                            }
 
                             {//render game
                                 renderGame(pictures);
@@ -126,39 +153,20 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                                 temp.renderText(400,450,white);text_pos[3] = temp.getRect();
                                 temp.setText("normal mode");
                                 temp.renderText(400,500,white);text_pos[4] = temp.getRect();
-                                temp.setText("high score");
-                                temp.renderText(400,550,white);text_pos[5] = temp.getRect();
 
                             }
 
-                            //update
-                            if (!q_dir.empty()) {
-                                    if(dir.x!=q_dir.front().x && dir.y!=q_dir.front().y)
-                                        dir = q_dir.front();
-                                    q_dir.pop();
-                            }
 
-                            updateHead(dir);
-                            if(checkCollisions()) lose = true;
-                            //running
-                            if(!lose && !pause){
-
-                                if(collisonWithTLFood()){
-                                    Mix_PlayChannel(-1, chunks[Eat], 0);
-                                    if(mode == Tele) makeTLfood();else telefood.first = ramdomCell();
-
-
-                                }
-                                updateSnake();
-                            }
                             mute ? SDL_RenderCopy(renderer,icons[SpeakerMute],NULL,&iconsPos[SpeakerMute])
                                     :SDL_RenderCopy(renderer,icons[SpeakerOn],NULL,&iconsPos[SpeakerOn]);
                             SDL_RenderCopy(renderer,icons[Option],NULL,&iconsPos[Option]);
 
                             //present
+
                                 SDL_RenderPresent(renderer);
-                                SDL_Delay(delay);
 
-
+                                delta = SDL_GetTicks() - t0;
+                                if(delta < 1000.0f / FPS )
+                                    SDL_Delay(1000.0f / FPS - delta);
 
 }

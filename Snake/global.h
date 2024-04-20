@@ -6,7 +6,7 @@
 #include<SDL_mixer.h>
 #include <bits/stdc++.h>
 
-enum State{    START,    INGAME,    EXIT};
+enum State{    START,    INGAME,    EXIT };
 /***icons enum ***/
 enum{Score,Trophy,Option,SpeakerMute,SpeakerOn,Icons};
 /***pictures enum ***/
@@ -30,17 +30,16 @@ const int COL = 24;
 const int ROW = 24;
 const int CELL = 40;
 const int INIT_SIZE = 3;
-const int INIT_DELAY = 120;
-int delay = INIT_DELAY;
-SDL_Window* window = NULL;
-SDL_Renderer* renderer = NULL;
+float FPS = 8;
+SDL_Window* window;
+SDL_Renderer* renderer;
 SDL_Point m;
 SDL_Rect head;
 std::deque<SDL_Rect> snake;
 int SnakeSize = INIT_SIZE;
 
 std::queue<SDL_Point> q_dir;
-SDL_Point dir{ CELL,0 };
+SDL_Point dir;
 
 
 
@@ -77,7 +76,7 @@ int cellState[24][24]={
 SDL_Rect food;
 std::pair<SDL_Rect,SDL_Rect> telefood;
 
-bool pause = false;
+bool pause;
 
 
 const char* eyePath[13]{

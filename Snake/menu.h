@@ -25,9 +25,10 @@ void renderScore(Text* score){
             highScore = FoodsEated;
             SaveHighScore();
     }
-    std::string scoreText = "" + std::to_string(FoodsEated)+"  "+std::to_string(highScore);
-    score->setText(scoreText);
+    score->setText(std::to_string(FoodsEated));
     score->renderText(80,45, white);
+    score->setText(std::to_string(highScore));
+    score->renderText(170,45, white);
 }
 void handleStartMenu(SDL_Event &e, State &state, SDL_Texture* pictures[], Mix_Chunk* chunks[], Text* texts[]){
     SDL_Rect temp;
