@@ -2,14 +2,11 @@
 #include "game.h"
 #include "global.h"
 
-Uint32 sT0,sT1,sDelta,elapse,speed = 8;
+Uint32 updateInputDelta,eyeDelta,speed = 9;
 void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Texture* icons[], Mix_Chunk* chunks[], Text* texts[], int &frame, SDL_Rect* iconsPos){
-                        sT0 = sT1;
-                        sT1 = SDL_GetTicks();
-                        sDelta += sT1 - sT0;
-                        elapse += t1-t0;
+                        updateInputDelta += t1-t0;
 
-                        if(sDelta > 1000.0f / speed){sDelta = 0;
+                        if(updateInputDelta > 1000.0f / speed){updateInputDelta = 0;
                             while (SDL_PollEvent(&e))
                             {
                                 switch(e.type)
@@ -46,6 +43,7 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                                                     q_dir.push({CELL,0});
                                                     break;
                                                 //pause
+                                                case SDLK_ESCAPE:
                                                 case SDLK_SPACE:
                                                     pause = !pause;
                                                     break;
@@ -85,12 +83,21 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                                                 else if(SDL_PointInRect(&m,&text_pos[2])){
                                                         pause = false;
                                                 }
+
                                                 else if(SDL_PointInRect(&m,&text_pos[3])){
-                                                        mode = Tele;
+                                                        mode = NormalMode;
                                                         newgame(5,15);
                                                 }
                                                 else if(SDL_PointInRect(&m,&text_pos[4])){
-                                                        mode = Normal;
+                                                        mode = TeleMode;
+                                                        newgame(5,15);
+                                                }
+                                                else if(SDL_PointInRect(&m,&text_pos[5])){
+                                                        mode = FlyMode;
+                                                        newgame(5,15);
+                                                }
+                                                else if(SDL_PointInRect(&m,&text_pos[6])){
+                                                        mode = WallMode;
                                                         newgame(5,15);
                                                 }
                                             }
@@ -108,28 +115,66 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                             }
                             updateHead();
                             //check lose
-                            if(checkCollisions()) lose = true;
+                            if(checkCollisions() || collisionWithRandomWall()) lose = true;
                             //running
                             if(!lose && !pause){
                                 updateSnake();
                             }
                             //check eat
-                            if(collisonWithTLFood()){
+                            if(collisonWithFood(p_food.first)){
+                                    foodsrcRect = getRandFoodTextureSrcRect(pictures);
+
                                     Mix_PlayChannel(-1, chunks[Eat], 0);
-                                    if(mode == Tele){
+                                    if(mode == TeleMode){
+                                        head = p_food.second;
                                         makeTLfood();
                                     }
-                                    else telefood.first = ramdomCell();
+                                    else if( mode == WallMode){
+                                        p_food.first = ramdomCell();
+                                        if(wall.size() < WallNum) wall.push_back(ramdomCell());
+
+                                    }
+                                    else if( mode == WallMode){
+                                        p_food.first = ramdomCell();
+                                        if(wall.size() < WallNum) wall.push_back(ramdomCell());
+
+                                    }
+                                    else{
+                                            p_food.first = ramdomCell();
+                                            fdir = ramdomDir();
+                                    }
+                                    if(locking == false) FoodsEated++;SnakeSize ++;updateSnake();
+                            }
+                            if(collisonWithFood(p_food.second)){
+                                    Mix_PlayChannel(-1, chunks[Eat], 0);
+                                    if(mode == TeleMode){
+                                        head = p_food.first;
+                                        makeTLfood();
+                                    }
+                                    if(mode == LockMode){
+                                        if(locking == false);makeTLfood();
+                                    }
+
                                     FoodsEated++;SnakeSize ++;updateSnake();
+
                             }
                         }
 
-
-                        if(elapse > 1000.0f / 12){elapse = 0;
-                            frame++;
-
 //render game>
-                            renderGame(pictures);
+                            if(mode == FlyMode && (dir.x != 0 || dir.y != 0)) flyFood(p_food.first);
+                            renderBoardAndSnake(pictures);
+                            renderFood(pictures,foodsrcRect);
+                            if(mode == WallMode && wall.empty() == false){
+                                for(auto& p : wall){
+                                    SDL_RenderCopy(renderer,pictures[Wall],NULL,&p);
+                                }
+                            }
+
+                            eyeDelta += t1 - t0;
+                            if(eyeDelta > 1000.0f / 12){eyeDelta=0;
+                                frame++;
+                            }
+
                             auto* eyeTexture = IMG_LoadTexture(renderer, eyePath[frame%13]);
                             SDL_RenderCopy(renderer,eyeTexture,NULL,&snake[0]);
                             SDL_DestroyTexture(eyeTexture);
@@ -148,10 +193,21 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                                 temp.renderText(400,350,white);text_pos[1] = temp.getRect();
                                 temp.setText("resume");
                                 temp.renderText(400,400,white);text_pos[2] = temp.getRect();
-                                temp.setText("tele mode");
-                                temp.renderText(400,450,white);text_pos[3] = temp.getRect();
                                 temp.setText("normal mode");
+                                temp.renderText(400,450,white);text_pos[3] = temp.getRect();
+
+                                temp.setText("tele mode");
                                 temp.renderText(400,500,white);text_pos[4] = temp.getRect();
+
+                                temp.setText("fly mode");
+                                temp.renderText(400,550,white);text_pos[5] = temp.getRect();
+
+                                temp.setText("Wall mode");
+                                temp.renderText(400,600,white);text_pos[6] = temp.getRect();
+
+                                if(mode == FlyMode) SDL_RenderCopy(renderer,icons[flyMode],NULL,&iconsPos[flyMode]);
+                                if(mode == TeleMode) SDL_RenderCopy(renderer,icons[teleMode],NULL,&iconsPos[teleMode]);
+
                             }
                             //icon
                             mute ? SDL_RenderCopy(renderer,icons[SpeakerMute],NULL,&iconsPos[SpeakerMute])
@@ -162,6 +218,6 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                                 SDL_RenderCopy(renderer,icons[Trophy],NULL,&iconsPos[Trophy]);
                                 renderScore(texts[Point]);
 
-                        }
+
 
 }

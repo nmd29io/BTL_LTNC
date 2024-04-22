@@ -17,18 +17,20 @@ SDL_Rect ramdomCell(){
                 return ramdomCell();
             }
     }
+    for(auto& p : wall){
+        if(SDL_HasIntersection(&p,&res)){
+            return ramdomCell();
+        }
+    }
     return res;
 }
+SDL_FPoint ramdomDir();
+SDL_FPoint fdir;
 void newgame(int x, int y){
     for(int i = 0; i < 24; i++)
         for(int j = 0; j < 24; j++)
             if(cellState[i][j] != 9 )cellState[i][j] = 0;
-    lose =false;
-    pause = false;
-    FoodsEated = 0;
-    dir = {0,0};
-    telefood.first = {0,0,0,0}; telefood.second ={0,0,0,0};
-    if(mode == Tele) makeTLfood();else telefood.first = ramdomCell();
+
     snake.clear();
     SnakeSize = INIT_SIZE;
     SDL_Rect temp;
@@ -36,11 +38,48 @@ void newgame(int x, int y){
             temp = {CELL*(x + i),CELL*y,CELL,CELL};
             snake.push_front(temp);setCellState(temp,1);
     }
+    lose =false;
+    pause = false;
+    FoodsEated = 0;
+    dir = {0,0};
+    p_food.first = {0,0,0,0}; p_food.second ={0,0,0,0};
+    if(mode == TeleMode || mode == LockMode) makeTLfood();else p_food.first = ramdomCell();
+
+    fdir = ramdomDir();
+    wall.clear();
+
 }
 int getCellState(SDL_Rect cell){
     return cellState[cell.y/CELL][cell.x/CELL];
 }
 
+SDL_FPoint ramdomDir(){
+    int degree_angle = rand()%361;
+    float radian_angle = degree_angle*M_PI/360;
+//    std::cout<<radian_angle<<' '<<20*cos(radian_angle)<<" "<<20*sin(radian_angle)<<'\n';
+    return SDL_FPoint({cos(radian_angle),sin(radian_angle)});
+}
+
+void flyFood(SDL_Rect &food){
+    int x = food.x + 5*fdir.x;
+    int y = food.y + 5*fdir.y;
+    SDL_Rect temp = {x,y,CELL,CELL};
+//std::cout<< p_food.first.x <<" "<<p_food.first.y <<'\n';
+    if(x >= COL * CELL - CELL -CELL || x <= CELL){ fdir.x = -fdir.x;}
+    if(y >= COL * CELL - CELL -CELL || y <= 4 * CELL){ fdir.y = -fdir.y;}
+    for (int i = 1; i < SnakeSize; i++)
+        if (SDL_HasIntersection(&temp,&snake[i])){
+            fdir.x = -fdir.x;fdir.y = -fdir.y; break;
+
+        }
+    food.x += 4*fdir.x;
+    food.y += 4*fdir.y;
+    if(food.x < CELL) food.x += CELL;
+    if(food.x > COL * CELL - CELL -CELL) food.x -= CELL;
+    if(food.y < 4 * CELL) food.y += CELL;
+    if(food.x > COL * CELL - CELL -CELL) food.y -= CELL;
+
+}
 void updateHead() {
         head = {snake.front().x + dir.x,snake.front().y + dir.y,CELL,CELL};
 
@@ -51,6 +90,14 @@ void updateSnake(){
                snake.push_front(head);setCellState(head,1);
     }
     if (int(snake.size()) > SnakeSize) { setCellState(snake.back(),0);snake.pop_back(); }
+}
+bool collisionWithRandomWall(){
+    for(auto& p : wall){
+        if(SDL_HasIntersection(&p,&head)){
+            return true;
+        }
+    }
+    return false;
 }
 
 bool checkCollisions() {
@@ -73,38 +120,55 @@ bool checkCollisions() {
 
 
 void makeTLfood(){
-        telefood.first = ramdomCell();
-        telefood.second = ramdomCell();
-        if(SDL_HasIntersection(&telefood.first,&telefood.second)) makeTLfood();
-        if(SDL_HasIntersection(&telefood.first,&head)) makeTLfood();
-        if(SDL_HasIntersection(&telefood.second,&head)) makeTLfood();
-        setCellState(telefood.first ,2);
-        setCellState(telefood.second ,2);
+        p_food.first = ramdomCell();
+        p_food.second = ramdomCell();
+        if(SDL_HasIntersection(&p_food.first,&p_food.second)) makeTLfood();
+        if(SDL_HasIntersection(&p_food.first,&head)) makeTLfood();
+        if(SDL_HasIntersection(&p_food.second,&head)) makeTLfood();
+        setCellState(p_food.first ,2);
+        setCellState(p_food.second ,2);
 
 }
 
-bool collisonWithTLFood(){
-    if(SDL_HasIntersection(&head,&telefood.first)){
-        if(mode == Tele){ head = telefood.second;}
+bool collisonWithFood(SDL_Rect& food){
+    if(SDL_HasIntersection(&head,&food)){
+        return true;
+    }
 
-        return true;
-    }
-    if(SDL_HasIntersection(&head,&telefood.second)){
-        if(mode == Tele){ head = telefood.first;}
-        return true;
-    }
     else return false;
 }
 #if 1
-void renderGame(SDL_Texture *pictures[]) {
+
+SDL_Rect getRandFoodTextureSrcRect(SDL_Texture *pictures[]){
+    int w,h;
+    SDL_QueryTexture(pictures[Foodlist],NULL,NULL,&w,&h);
+    w/=22;
+    int x = rand()%22 * w;
+    return SDL_Rect({x,0,w,h});
+
+}
+void renderFood(SDL_Texture *pictures[],SDL_Rect src) {
+    // Draw foods
+    SDL_Rect temp;
+    temp = p_food.first;
+    temp.x -= 7;
+    temp.y -= 9;
+    temp.w += 14;
+    temp.h += 18;
+    SDL_RenderCopy(renderer,pictures[mode == LockMode ? Key : Foodlist],&src,&temp);
+    temp = p_food.second;
+    temp.x -= 7;
+    temp.y -= 9;
+    temp.w += 14;
+    temp.h += 18;
+    SDL_RenderCopy(renderer,pictures[mode == LockMode ? Box : Foodlist],&src,&temp);
+
+}
+
+void renderBoardAndSnake(SDL_Texture *pictures[]) {
     SDL_Rect temp;
     //board
     SDL_RenderCopy(renderer,pictures[Board],NULL,NULL);
-    // Draw foods
-    temp = telefood.first; temp.h += 5;
-    SDL_RenderCopy(renderer,pictures[Food],NULL,&temp);
-    temp = telefood.second; temp.h += 5;
-    SDL_RenderCopy(renderer,pictures[Food],NULL,&temp);
     // Draw snake's
     temp = snake[0];
             temp.x -= 5;

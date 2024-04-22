@@ -30,6 +30,7 @@ void renderScore(Text* score){
     score->setText(std::to_string(highScore));
     score->renderText(235,45, white);
 }
+
 void handleStartMenu(SDL_Event &e, State &state, SDL_Texture* pictures[], Mix_Chunk* chunks[], Text* texts[]){
     SDL_Rect temp;
 

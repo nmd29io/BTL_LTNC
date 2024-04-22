@@ -7,17 +7,22 @@
 #include <bits/stdc++.h>
 
 enum State{    START,    INGAME,    EXIT };
+
 /***icons enum ***/
-enum{Score,Trophy,Option,SpeakerMute,SpeakerOn,Icons};
+enum{Score,Trophy,Option,SpeakerMute,SpeakerOn,flyMode,teleMode,Icons};
+
 /***pictures enum ***/
-enum{StartBg,Food,Head,Body,Tail,Curve,Board,Pictures};
+enum{StartBg,Food,Head,Body,Tail,Curve,Board,Foodlist,Wall,Key,Box,Pictures};
+
 /***chunks enum***/
 enum{Start,Eat,Death,Chunks};bool mute = false;
+
 /***Text enum ***/
 enum{Play,Exit,GameOver,GameOver2,Point,Texts};
 
-enum Mode{Normal, Tele, Fly};Mode mode = Normal;
+enum Mode{NormalMode, TeleMode, FlyMode, WallMode, LockMode};Mode mode = LockMode;
 bool soundhasnotplay = true;
+bool locking = false;
 SDL_Rect text_pos[20];
 
 
@@ -30,8 +35,8 @@ const int COL = 24;
 const int ROW = 24;
 const int CELL = 40;
 const int INIT_SIZE = 3;
-
-float FPS = 75;
+const int WallNum = 50;
+float FPS = 45;
 Uint32 t0,t1,delta;
 
 SDL_Window* window;
@@ -43,6 +48,18 @@ int SnakeSize = INIT_SIZE;
 
 std::queue<SDL_Point> q_dir;
 SDL_Point dir;
+
+
+
+std::pair<SDL_Rect,SDL_Rect> p_food;
+SDL_Rect foodsrcRect;
+
+std::vector<SDL_Rect> wall;
+
+bool pause;
+
+int FoodsEated = 0;
+
 
 void renderAnimation(std::string path,int i, int col, int row, SDL_Rect dst, int angle, SDL_Point* center){
 
@@ -56,7 +73,10 @@ void renderAnimation(std::string path,int i, int col, int row, SDL_Rect dst, int
     SDL_DestroyTexture(texture);
 }
 
-int FoodsEated = 0;
+
+
+
+
 int cellState[24][24]={
 {9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9},
 {9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9},
@@ -85,11 +105,6 @@ int cellState[24][24]={
 };
 
 
-
-SDL_Rect food;
-std::pair<SDL_Rect,SDL_Rect> telefood;
-
-bool pause;
 
 
 const char* eyePath[13]{
