@@ -31,7 +31,7 @@ void newgame(int x, int y){
         for(int j = 0; j < 24; j++)
             if(cellState[i][j] != 9 )cellState[i][j] = 0;
 
-    snake.clear();
+    snake.clear();speed = 8;
     SnakeSize = INIT_SIZE;
     SDL_Rect temp;
     for (int i = 0; i < INIT_SIZE; ++i) {
@@ -104,7 +104,7 @@ bool collisionWithRandomWall(){
 
 bool checkCollisions() {
     // Check for collisions with snake's body
-    for (int i = 1; i < SnakeSize; i++) {
+    for (int i = 1; i < snake.size(); i++) {
         if (SDL_HasIntersection(&head,&snake[i])) {
             return true;
         }
@@ -178,7 +178,7 @@ void renderBoardAndSnake(SDL_Texture *pictures[]) {
             temp.w += 10;
             temp.h += 15;
     SDL_RenderCopy(renderer,pictures[Body],NULL,&temp);
-    for(int i = 1; i < SnakeSize; i++){
+    for(int i = 1; i < snake.size(); i++){
         temp = snake[i];temp.h += 5;
         SDL_RenderCopy(renderer,pictures[Body],NULL,&temp);
     }

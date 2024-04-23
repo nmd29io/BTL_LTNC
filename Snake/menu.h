@@ -30,35 +30,36 @@ void renderScore(Text* score){
     score->setText(std::to_string(highScore));
     score->renderText(235,45, white);
 }
+bool hoverButton(Text* text,int x,int y, int size,SDL_Event &e){
+    SDL_Rect temp;
+    text->setFont(size);
+                    text->renderText(x,y,white);
+                    temp = text->getRect();
+                    if(SDL_PointInRect(&m,&temp ) ){
+                        text->setFont(size,"font/8-bit Arcade Out.ttf");
+                        text->renderText(x,y,black);
+                        if(e.type == SDL_MOUSEBUTTONDOWN)return true;
+                    }
+                    return false;
+}
 
 void handleStartMenu(SDL_Event &e, State &state, SDL_Texture* pictures[], Mix_Chunk* chunks[], Text* texts[]){
     SDL_Rect temp;
 
                 while (SDL_PollEvent(&e)) {
 
-
+                    //render bg
                     SDL_RenderCopy(renderer,pictures[StartBg],NULL,NULL);
+                    SDL_GetMouseState(&m.x,&m.y);
 
                     if (e.type == SDL_QUIT) state = EXIT;
-                    SDL_GetMouseState(&m.x,&m.y);
-                    //play
-                    texts[Play]->setFont(80);
-                    texts[Play]->renderText(400,400,white);
-                    temp = texts[Play]->getRect();
-                    if(SDL_PointInRect(&m,&temp ) ){
-                        texts[Play]->setFont(80,"font/8-bit Arcade Out.ttf");
-                        texts[Play]->renderText(400,400,black);
-                        if(e.type == SDL_MOUSEBUTTONDOWN){Mix_PlayChannel(-1,chunks[Start],0); state = INGAME;}
-                    }
-                    //exit
-                    texts[Exit]->setFont(80);
-                    texts[Exit]->renderText(430,500,white);
-                    temp = texts[Exit]->getRect();
-                    if(SDL_PointInRect(&m,&temp ) ){
-                        texts[Exit]->setFont(80,"font/8-bit Arcade Out.ttf");
-                        texts[Exit]->renderText(430,500,black);
-                        if(e.type == SDL_MOUSEBUTTONDOWN) state = EXIT;
-                    }
+
+                    //play button
+                    else if(hoverButton(texts[Play],400,400,80,e)){Mix_PlayChannel(-1,chunks[Start],0); state = INGAME;}
+
+                    //exit button
+                    else if(hoverButton(texts[Exit],430,500,80,e)) state = EXIT;
+
                 }
 
 }

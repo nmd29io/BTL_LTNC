@@ -9,7 +9,7 @@
 enum State{    START,    INGAME,    EXIT };
 
 /***icons enum ***/
-enum{Score,Trophy,Option,SpeakerMute,SpeakerOn,flyMode,teleMode,lockMode,wallMode,Icons};
+enum{Score,Trophy,Option,SpeakerMute,SpeakerOn,flyMode,teleMode,lockMode,wallMode,MusicOn,MusicOff,Icons};
 
 /***pictures enum ***/
 enum{StartBg,Food,Head,Body,Tail,Curve,Board,Foodlist,Wall,Key,Box,Pictures};
@@ -45,7 +45,7 @@ SDL_Point m;
 SDL_Rect head;
 std::deque<SDL_Rect> snake;
 int SnakeSize = INIT_SIZE;
-
+float speed;
 std::queue<SDL_Point> q_dir;
 SDL_Point dir;
 

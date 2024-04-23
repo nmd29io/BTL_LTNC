@@ -2,7 +2,7 @@
 #include "game.h"
 #include "global.h"
 
-Uint32 updateInputDelta,eyeDelta,speed = 9;
+Uint32 updateInputDelta,eyeDelta;
 void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Texture* icons[], Mix_Chunk* chunks[], Text* texts[], int &frame, SDL_Rect* iconsPos){
                         updateInputDelta += t1-t0;
 
@@ -52,11 +52,12 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                                                     newgame(5,15); lose = false;soundhasnotplay = true;
                                                     break;
                                                 case SDLK_m:
-                                                    if(mute){
+                                                    if(mute && Mix_PausedMusic()){
                                                             Mix_Volume(0,MIX_MAX_VOLUME);mute = false;
+                                                            Mix_ResumeMusic();
                                                     }
                                                     else{
-                                                        Mix_Volume(0,0); mute = true;
+                                                        Mix_Volume(0,0); mute = true;Mix_PauseMusic();
                                                     }
                                                     break;
                                         }
@@ -72,6 +73,8 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                                                     else{
                                                         Mix_Volume(0,0); mute = true;
                                                     }
+                                            }if(SDL_PointInRect(&m,&iconsPos[MusicOn]) ){
+                                                    Mix_PausedMusic() ? Mix_ResumeMusic() : Mix_PauseMusic();
                                             }
                                             else if(SDL_PointInRect(&m,&iconsPos[Option]) ){
                                                     pause = !pause;
@@ -127,6 +130,7 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                             }
                             //check eat
                             if(collisonWithFood(p_food.first) && !lose){
+                                    if(speed<20)speed += 0.2;
                                     foodsrcRect = getRandFoodTextureSrcRect(pictures);
 
                                     Mix_PlayChannel(-1, chunks[Eat], 0);
@@ -171,7 +175,7 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                         }
 
 //render game>
-                            if(!lose && mode == FlyMode && (dir.x != 0 || dir.y != 0)) flyFood(p_food.first);
+                            if(!lose &&mode == FlyMode && (dir.x != 0 || dir.y != 0)) flyFood(p_food.first);
                             renderBoardAndSnake(pictures);
                             renderFood(pictures,foodsrcRect);
                             if(mode == WallMode && wall.empty() == false){
@@ -230,6 +234,8 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                             //icon
                             mute ? SDL_RenderCopy(renderer,icons[SpeakerMute],NULL,&iconsPos[SpeakerMute])
                                     :SDL_RenderCopy(renderer,icons[SpeakerOn],NULL,&iconsPos[SpeakerOn]);
+                            Mix_PausedMusic() ?  SDL_RenderCopy(renderer,icons[MusicOff],NULL,&iconsPos[MusicOff])
+                                    :SDL_RenderCopy(renderer,icons[MusicOn],NULL,&iconsPos[MusicOn]);
                             SDL_RenderCopy(renderer,icons[Option],NULL,&iconsPos[Option]);
                             //score
                                 SDL_RenderCopy(renderer,icons[Score],NULL,&iconsPos[Score]);

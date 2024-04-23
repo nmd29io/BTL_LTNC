@@ -13,14 +13,17 @@ int main(int argc, char** argv)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //icons
         SDL_Texture* icons[Icons]; SDL_Rect iconsPos[Icons];
-        icons[flyMode] = IMG_LoadTexture(renderer,"picture/flyMode.png");iconsPos[flyMode] = {400,30,60,60};
-        icons[teleMode] = IMG_LoadTexture(renderer,"picture/teleMode.png");iconsPos[teleMode] = {400,30,60,60};
-        icons[lockMode] = IMG_LoadTexture(renderer,"picture/key.png");iconsPos[lockMode] = {400,30,60,60};
-        icons[wallMode] = IMG_LoadTexture(renderer,"picture/wall2.png");iconsPos[wallMode] = {400,30,60,60};
+        icons[flyMode] = IMG_LoadTexture(renderer,"picture/flyMode.png");iconsPos[flyMode] = {450,30,60,60};
+        icons[teleMode] = IMG_LoadTexture(renderer,"picture/teleMode.png");iconsPos[teleMode] = {450,30,60,60};
+        icons[lockMode] = IMG_LoadTexture(renderer,"picture/key.png");iconsPos[lockMode] = {450,30,60,60};
+        icons[wallMode] = IMG_LoadTexture(renderer,"picture/wall2.png");iconsPos[wallMode] = {450,30,60,60};
+
 
         icons[Score] = IMG_LoadTexture(renderer,"picture/food2.png");iconsPos[Score] = {40,40,40,40};
         icons[Trophy] = IMG_LoadTexture(renderer,"picture/Icons/Trophy.png");iconsPos[Trophy] = {200,40,40,40};
         icons[Option] = IMG_LoadTexture(renderer,"picture/Icons/Option.png");iconsPos[Option] = {900,40,40,40};
+        icons[MusicOn] = IMG_LoadTexture(renderer,"picture/Icons/MusicNotes.png");iconsPos[MusicOn] = {800,40,40,40};
+        icons[MusicOff] = IMG_LoadTexture(renderer,"picture/Icons/MusicOff.png");iconsPos[MusicOff] = {800,40,40,40};
         icons[SpeakerOn] = IMG_LoadTexture(renderer,"picture/Icons/SpeakerOn.png");iconsPos[SpeakerOn] = {850,40,40,40};
         icons[SpeakerMute] = IMG_LoadTexture(renderer,"picture/Icons/SpeakerMute.png");iconsPos[SpeakerMute] = {850,40,40,40};
 //picture
@@ -35,6 +38,7 @@ int main(int argc, char** argv)
         pictures[Board] = IMG_LoadTexture(renderer,"picture/board.png");
         pictures[Body] = IMG_LoadTexture(renderer, "picture/shaded_head.png");
 //sound
+        Mix_Music* bgmusic = Mix_LoadMUS("sound/HeadEmpty.mp3"); if(bgmusic == NULL)std::cerr<< "NGu";
         Mix_Chunk* chunks[Chunks];
         chunks[Start] = Mix_LoadWAV("sound/click.wav");
         chunks[Eat] = Mix_LoadWAV("sound/crunch.wav");
@@ -59,10 +63,12 @@ int main(int argc, char** argv)
 //    SDL_SetSurfaceBlendMode(windowSurface,SDL_BLENDMODE_ADD);
     SDL_SetWindowIcon(window,IMG_Load("picture/windowicon.png"));
 
-int f = 0;
+//int f = 0;
     ////
 #if 1
+    Mix_PlayMusic(bgmusic,-1);
     while(!quit){
+
 
         t0 = t1;
         t1 = SDL_GetTicks();
