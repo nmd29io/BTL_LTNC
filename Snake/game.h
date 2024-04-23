@@ -44,7 +44,8 @@ void newgame(int x, int y){
     dir = {0,0};
     p_food.first = {0,0,0,0}; p_food.second ={0,0,0,0};
     if(mode == TeleMode || mode == LockMode) makeTLfood();else p_food.first = ramdomCell();
-
+    if(mode == LockMode) locking = true;
+    else locking = false;
     fdir = ramdomDir();
     wall.clear();
 
@@ -67,11 +68,12 @@ void flyFood(SDL_Rect &food){
 //std::cout<< p_food.first.x <<" "<<p_food.first.y <<'\n';
     if(x >= COL * CELL - CELL -CELL || x <= CELL){ fdir.x = -fdir.x;}
     if(y >= COL * CELL - CELL -CELL || y <= 4 * CELL){ fdir.y = -fdir.y;}
-    for (int i = 1; i < SnakeSize; i++)
-        if (SDL_HasIntersection(&temp,&snake[i])){
+    for (auto& segment : snake){
+        if (SDL_HasIntersection(&temp,&segment)){
             fdir.x = -fdir.x;fdir.y = -fdir.y; break;
 
         }
+    }
     food.x += 4*fdir.x;
     food.y += 4*fdir.y;
     if(food.x < CELL) food.x += CELL;
@@ -155,13 +157,13 @@ void renderFood(SDL_Texture *pictures[],SDL_Rect src) {
     temp.y -= 9;
     temp.w += 14;
     temp.h += 18;
-    SDL_RenderCopy(renderer,pictures[mode == LockMode ? Key : Foodlist],&src,&temp);
+    SDL_RenderCopy(renderer,pictures[mode == LockMode ? Key : Foodlist],mode == LockMode ? NULL : &src,&temp);
     temp = p_food.second;
     temp.x -= 7;
     temp.y -= 9;
     temp.w += 14;
     temp.h += 18;
-    SDL_RenderCopy(renderer,pictures[mode == LockMode ? Box : Foodlist],&src,&temp);
+    SDL_RenderCopy(renderer,pictures[locking ? Box : Foodlist],locking ? NULL : &src,&temp);
 
 }
 

@@ -100,6 +100,10 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                                                         mode = WallMode;
                                                         newgame(5,15);
                                                 }
+                                                else if(SDL_PointInRect(&m,&text_pos[7])){
+                                                        mode = LockMode;
+                                                        newgame(5,15);
+                                                }
                                             }
                                         }
                                     break;
@@ -115,13 +119,14 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                             }
                             updateHead();
                             //check lose
-                            if(checkCollisions() || collisionWithRandomWall()) lose = true;
+                            if(checkCollisions() || collisionWithRandomWall()
+                               || (collisonWithFood(p_food.second)&&locking)) lose = true;
                             //running
                             if(!lose && !pause){
                                 updateSnake();
                             }
                             //check eat
-                            if(collisonWithFood(p_food.first)){
+                            if(collisonWithFood(p_food.first) && !lose){
                                     foodsrcRect = getRandFoodTextureSrcRect(pictures);
 
                                     Mix_PlayChannel(-1, chunks[Eat], 0);
@@ -134,34 +139,39 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                                         if(wall.size() < WallNum) wall.push_back(ramdomCell());
 
                                     }
-                                    else if( mode == WallMode){
-                                        p_food.first = ramdomCell();
-                                        if(wall.size() < WallNum) wall.push_back(ramdomCell());
 
-                                    }
                                     else{
                                             p_food.first = ramdomCell();
                                             fdir = ramdomDir();
                                     }
-                                    if(locking == false) FoodsEated++;SnakeSize ++;updateSnake();
+                                    if(mode == LockMode) {
+                                            locking = false;p_food.first = {};
+                                    }
+                                    else{
+                                        FoodsEated++;SnakeSize ++;updateSnake();
+                                    }
                             }
-                            if(collisonWithFood(p_food.second)){
+                            if(collisonWithFood(p_food.second) && !lose){
                                     Mix_PlayChannel(-1, chunks[Eat], 0);
                                     if(mode == TeleMode){
                                         head = p_food.first;
-                                        makeTLfood();
+                                        makeTLfood();FoodsEated++;SnakeSize ++;updateSnake();
                                     }
                                     if(mode == LockMode){
-                                        if(locking == false);makeTLfood();
+                                        if(locking == false){
+                                                makeTLfood();
+                                                locking = true;
+                                                FoodsEated++;SnakeSize ++;updateSnake();
+                                        }
                                     }
 
-                                    FoodsEated++;SnakeSize ++;updateSnake();
+
 
                             }
                         }
 
 //render game>
-                            if(mode == FlyMode && (dir.x != 0 || dir.y != 0)) flyFood(p_food.first);
+                            if(!lose && mode == FlyMode && (dir.x != 0 || dir.y != 0)) flyFood(p_food.first);
                             renderBoardAndSnake(pictures);
                             renderFood(pictures,foodsrcRect);
                             if(mode == WallMode && wall.empty() == false){
@@ -178,6 +188,14 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                             auto* eyeTexture = IMG_LoadTexture(renderer, eyePath[frame%13]);
                             SDL_RenderCopy(renderer,eyeTexture,NULL,&snake[0]);
                             SDL_DestroyTexture(eyeTexture);
+                            switch(mode){
+                                case FlyMode:SDL_RenderCopy(renderer,icons[flyMode],NULL,&iconsPos[flyMode]);break;
+                                case TeleMode:SDL_RenderCopy(renderer,icons[teleMode],NULL,&iconsPos[teleMode]);break;
+                                case WallMode:SDL_RenderCopy(renderer,icons[wallMode],NULL,&iconsPos[wallMode]);break;
+                                case LockMode:SDL_RenderCopy(renderer,icons[lockMode],NULL,&iconsPos[lockMode]);break;
+                            }
+
+
 
                             if(lose){
                                 texts[GameOver2]->renderText(50,200,white);
@@ -205,8 +223,8 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                                 temp.setText("Wall mode");
                                 temp.renderText(400,600,white);text_pos[6] = temp.getRect();
 
-                                if(mode == FlyMode) SDL_RenderCopy(renderer,icons[flyMode],NULL,&iconsPos[flyMode]);
-                                if(mode == TeleMode) SDL_RenderCopy(renderer,icons[teleMode],NULL,&iconsPos[teleMode]);
+                                temp.setText("Lock mode");
+                                temp.renderText(400,650,white);text_pos[7] = temp.getRect();
 
                             }
                             //icon

@@ -13,8 +13,11 @@ int main(int argc, char** argv)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //icons
         SDL_Texture* icons[Icons]; SDL_Rect iconsPos[Icons];
-        icons[flyMode] = IMG_LoadTexture(renderer,"picture/flyMode.png");iconsPos[flyMode] = {400,40,80,80};
-        icons[teleMode] = IMG_LoadTexture(renderer,"picture/teleMode.png");iconsPos[teleMode] = {400,40,80,80};
+        icons[flyMode] = IMG_LoadTexture(renderer,"picture/flyMode.png");iconsPos[flyMode] = {400,30,60,60};
+        icons[teleMode] = IMG_LoadTexture(renderer,"picture/teleMode.png");iconsPos[teleMode] = {400,30,60,60};
+        icons[lockMode] = IMG_LoadTexture(renderer,"picture/key.png");iconsPos[lockMode] = {400,30,60,60};
+        icons[wallMode] = IMG_LoadTexture(renderer,"picture/wall2.png");iconsPos[wallMode] = {400,30,60,60};
+
         icons[Score] = IMG_LoadTexture(renderer,"picture/food2.png");iconsPos[Score] = {40,40,40,40};
         icons[Trophy] = IMG_LoadTexture(renderer,"picture/Icons/Trophy.png");iconsPos[Trophy] = {200,40,40,40};
         icons[Option] = IMG_LoadTexture(renderer,"picture/Icons/Option.png");iconsPos[Option] = {900,40,40,40};
@@ -40,8 +43,8 @@ int main(int argc, char** argv)
         Text* texts[Texts];
         texts[Play] = new Text("start",80);
         texts[Exit] = new Text("exit",80);
-        texts[GameOver] = new Text("game over press space to replay",60,"font/8-bit Arcade Out.ttf");
-        texts[GameOver2] = new Text("game over press space to replay",60,"font/8-bit Arcade In.ttf");
+        texts[GameOver] = new Text("game over press r to replay",65,"font/8-bit Arcade Out.ttf");
+        texts[GameOver2] = new Text("game over press r to replay",65,"font/8-bit Arcade In.ttf");
         texts[Point] = new Text(30,"font/dogicabold.ttf");
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     State state = START;

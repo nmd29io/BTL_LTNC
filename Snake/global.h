@@ -9,7 +9,7 @@
 enum State{    START,    INGAME,    EXIT };
 
 /***icons enum ***/
-enum{Score,Trophy,Option,SpeakerMute,SpeakerOn,flyMode,teleMode,Icons};
+enum{Score,Trophy,Option,SpeakerMute,SpeakerOn,flyMode,teleMode,lockMode,wallMode,Icons};
 
 /***pictures enum ***/
 enum{StartBg,Food,Head,Body,Tail,Curve,Board,Foodlist,Wall,Key,Box,Pictures};
@@ -20,7 +20,7 @@ enum{Start,Eat,Death,Chunks};bool mute = false;
 /***Text enum ***/
 enum{Play,Exit,GameOver,GameOver2,Point,Texts};
 
-enum Mode{NormalMode, TeleMode, FlyMode, WallMode, LockMode};Mode mode = LockMode;
+enum Mode{NormalMode, TeleMode, FlyMode, WallMode, LockMode};Mode mode = NormalMode;
 bool soundhasnotplay = true;
 bool locking = false;
 SDL_Rect text_pos[20];
