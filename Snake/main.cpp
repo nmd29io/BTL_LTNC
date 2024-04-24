@@ -38,7 +38,7 @@ int main(int argc, char** argv)
         pictures[Board] = IMG_LoadTexture(renderer,"picture/board.png");
         pictures[Body] = IMG_LoadTexture(renderer, "picture/shaded_head.png");
 //sound
-        Mix_Music* bgmusic = Mix_LoadMUS("sound/HeadEmpty.mp3"); if(bgmusic == NULL)std::cerr<< "NGu";
+        Mix_Music* bgmusic = Mix_LoadMUS("sound/HeadEmpty.mp3");
         Mix_Chunk* chunks[Chunks];
         chunks[Start] = Mix_LoadWAV("sound/click.wav");
         chunks[Eat] = Mix_LoadWAV("sound/crunch.wav");
@@ -56,32 +56,16 @@ int main(int argc, char** argv)
     bool quit = false;
     t1 = SDL_GetTicks();
     delta = 0;
-    ////
-//    SDL_Surface* windowSurface = SDL_GetWindowSurface(window);
-//    auto* gif = IMG_LoadAnimation("C:\\Users\\T480S\\Downloads\\giphy.gif");
-//    std::cout<<gif->h<<" "<<gif->w <<" "<<gif->count<<" "<<*gif->delays<<" ";
-//    SDL_SetSurfaceBlendMode(windowSurface,SDL_BLENDMODE_ADD);
-    SDL_SetWindowIcon(window,IMG_Load("picture/windowicon.png"));
-
-//int f = 0;
-    ////
 #if 1
     Mix_PlayMusic(bgmusic,-1);
     while(!quit){
-
-
         t0 = t1;
         t1 = SDL_GetTicks();
         delta = t1 - t0;
         if(delta < 1000.0f / FPS ){
-                SDL_RenderPresent(renderer);
-//                SDL_BlitSurface(gif->frames[f++],NULL,windowSurface,NULL);if(f == gif->count) f=0;
-//                SDL_UpdateWindowSurface(window);
-//            std::cout<<delta<<'\n';
             SDL_Delay(1000.0f / FPS - delta);
-
-
         }
+        SDL_RenderPresent(renderer);
 
         switch(state){
             case START:

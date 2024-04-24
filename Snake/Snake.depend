@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1713877689 source:d:\btl_ltnc\snake\main.cpp
+1713954982 source:d:\btl_ltnc\snake\main.cpp
 	"game.h"
 	"menu.h"
 	"text.h"
@@ -31,7 +31,9 @@
 	"game.h"
 	"global.h"
 
-1713877366 d:\btl_ltnc\snake\ingame.h
+1713879498 d:\btl_ltnc\snake\ingame.h
 	"game.h"
 	"global.h"
+
+1713955128 source:d:\btl_ltnc\snake\icon.rc
 

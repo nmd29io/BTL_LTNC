@@ -2,7 +2,7 @@
 #include "game.h"
 #include "global.h"
 
-Uint32 updateInputDelta,eyeDelta;
+Uint32 updateInputDelta,renderDelta,eyeDelta;
 void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Texture* icons[], Mix_Chunk* chunks[], Text* texts[], int &frame, SDL_Rect* iconsPos){
                         updateInputDelta += t1-t0;
 
@@ -175,6 +175,10 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                         }
 
 //render game>
+                        renderDelta += t1-t0;
+                        if(renderDelta > FPS){renderDelta=0;
+
+
                             if(!lose &&mode == FlyMode && (dir.x != 0 || dir.y != 0)) flyFood(p_food.first);
                             renderBoardAndSnake(pictures);
                             renderFood(pictures,foodsrcRect);
@@ -241,6 +245,7 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                                 SDL_RenderCopy(renderer,icons[Score],NULL,&iconsPos[Score]);
                                 SDL_RenderCopy(renderer,icons[Trophy],NULL,&iconsPos[Trophy]);
                                 renderScore(texts[Point]);
+                        }
 
 
 
