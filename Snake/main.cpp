@@ -64,8 +64,9 @@ int main(int argc, char** argv)
         delta = t1 - t0;
         if(delta < 1000.0f / FPS ){
             SDL_Delay(1000.0f / FPS - delta);
+            SDL_RenderPresent(renderer);
         }
-        SDL_RenderPresent(renderer);
+
 
         switch(state){
             case START:

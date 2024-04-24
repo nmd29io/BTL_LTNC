@@ -74,8 +74,8 @@ void flyFood(SDL_Rect &food){
 
         }
     }
-    food.x += 4*fdir.x;
-    food.y += 4*fdir.y;
+    food.x += 5*fdir.x;
+    food.y += 5*fdir.y;
     if(food.x < CELL) food.x += CELL;
     if(food.x > COL * CELL - CELL -CELL) food.x -= CELL;
     if(food.y < 4 * CELL) food.y += CELL;

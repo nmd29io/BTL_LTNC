@@ -36,7 +36,7 @@ const int ROW = 24;
 const int CELL = 40;
 const int INIT_SIZE = 3;
 const int WallNum = 50;
-float FPS = 45;
+float FPS = 75;
 Uint32 t0,t1,delta;
 
 SDL_Window* window;

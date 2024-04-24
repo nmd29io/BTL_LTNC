@@ -130,7 +130,7 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                             }
                             //check eat
                             if(collisonWithFood(p_food.first) && !lose){
-                                    if(speed<20)speed += 0.2;
+
                                     foodsrcRect = getRandFoodTextureSrcRect(pictures);
 
                                     Mix_PlayChannel(-1, chunks[Eat], 0);
@@ -176,7 +176,7 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
 
 //render game>
                         renderDelta += t1-t0;
-                        if(renderDelta > FPS){renderDelta=0;
+                        if(renderDelta > 1000.0f/FPS){renderDelta=0;
 
 
                             if(!lose &&mode == FlyMode && (dir.x != 0 || dir.y != 0)) flyFood(p_food.first);
