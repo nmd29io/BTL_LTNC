@@ -12,7 +12,8 @@ Game được viết bằng C++ và thư viện SDL2
 
 # Download 
  [Window](https://github.com/nmd29io/BTL_LTNC/releases/download/master/BTL_Release.zip)<br/>
- Tải file giải nén và chạy file .exe (application)<br/>
+ Tải file giải nén và chạy file ![image](https://github.com/nmd29io/BTL_LTNC/assets/85045877/092bb014-97be-4457-a4ca-b4d599df030e)
+<br/>
 Game đã được chạy thử trên vài máy Window 10,11<br/>
 Game không có virus<br/>
 ![image](https://github.com/nmd29io/BTL_LTNC/assets/85045877/92066254-e2c6-4035-ae04-79f76b8397d9)
@@ -78,19 +79,23 @@ https://github.com/nmd29io/BTL_LTNC/assets/85045877/dedbec48-3c9c-4a05-8f0d-3f96
 - ingame.h: sử lý sự kiện trong trò chơi, dùng các hàm của game.h
 
 ## Tham khảo 
-- Tham khảo logic: [Youtube](https://www.youtube.com/watch?v=3kw1-dOikMA&t=508s&pp=ugMICgJ2aRABGAHKBQlzbmFrZSBzZGw%3D) [ChatGPT](https://chat.openai.com)
+- Các kiến thức học trên lớp LTNC
+- Tham khảo logic, mã nguồn: [Youtube](https://www.youtube.com/watch?v=3kw1-dOikMA&t=508s&pp=ugMICgJ2aRABGAHKBQlzbmFrZSBzZGw%3D) [ChatGPT](https://chat.openai.com)
 - Đồ họa icon sử dụng: [Google Snake Game](https://www.spriters-resource.com/browser_games/googlesnakegame/) [itch.io](https://itch.io)
 - Music: [Head Empty](https://www.youtube.com/watch?v=1-Bgs27hB5k)
+- Tham khảo các chế độ trong [game rắn săn mồi của Google](https://g.co/kgs/V8a3RU2)
 # Tổng kết
 ## Bài học
 - Cải thiện kĩ năng lập trình
 - Biết cách set up môi trường và sử dụng các thư viện ngoài(SDL2)
 - Sử dụng thư viện SDL2.0, SDL2.0_image, SDL2.0_mixer, SDL2.0_ttf
+- Học được thêm nhiều thuật toán hay và tự mình cài đặt vào chương trình.
+- Học được kĩ thuật làm game cơ bản.
 - ... 
 ## Nhược điểm
-- Chưa có AI và chế độ multiplayer
+- Game chưa có AI và chế độ multiplayer
 - Code chưa chuyên nghiệp, khó cải tiến
-- Chưa thành thạo OOP
+- Chưa tiếp thu kĩ thuật lập trình hướng đối tượng
 - Chưa biết áp dụng các design pattern
 ## Định hướng phát triển
 - Thêm chế độ multiplayer
