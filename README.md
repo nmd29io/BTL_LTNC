@@ -16,13 +16,13 @@ Game đã được chạy thử trên vài máy Window 10,11 và `không có vir
 ![image](https://github.com/nmd29io/BTL_LTNC/assets/85045877/92066254-e2c6-4035-ae04-79f76b8397d9)
 
 # Cách chơi 
-- Nhấn Start để bắt đầu
+- Nhấn `Start` để bắt đầu, `Exit` để thoát
 
 
 https://github.com/nmd29io/BTL_LTNC/assets/85045877/5b5814db-7cde-4da5-abf1-7968d10077d2
 
 
-- Bạn có thể bắt đầu chơi luôn hoặc chuyển chế độ khác:
+- Bạn có thể bắt đầu chơi luôn chế độ bình thường hoặc chuyển [`chế độ khác`](#các-chế-độ) bằng các nhấn `SPACE`
 ## Các phím tắt chức năng và điều khiển
 - `W, A, S, D` hoặc `UP, LEFT, DOWN, RIGHT`: Điểu khiển con rắn
 - `SPACE` hoặc ![Option](https://github.com/nmd29io/BTL_LTNC/assets/85045877/5b6cee90-d681-4363-b2aa-890d9839e6ad)
