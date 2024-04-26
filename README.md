@@ -4,13 +4,12 @@
 - Họ và tên Nguyễn Minh Đức
 - Mã sinh viên 23020049
 - Khóa K68-BC-UET
-- Thử nghiệm game:
+- [Thử nghiệm game](https://youtu.be/aIwp53ujmKk)
 
 # Giới thiệu game
 Game “Snake” là một thể loại game hành động nơi người chơi điều khiển đầu của một đường đang phát triển, thường được tạo hình như một con rắn. Trong game người chơi phải điều khiểu đầu rắn. Khi bạn ăn được thức ăn rắn sẽ phát triển dài ra. Nếu, hoặc khi nào, con rắn va vào cạnh màn hình hoặc ăn phải chính mình thì trò chơi sẽ kết thúc.
 # Download 
-[Window](https://github.com/nmd29io/BTL_LTNC/releases/download/master/BTL_Release.zip)
-- Tải file giải nén và chạy file .exe (application)
+[Window](https://github.com/nmd29io/BTL_LTNC/releases/download/master/BTL_Release.zip) Tải file giải nén và chạy file .exe (application)
 # Nhiệm vụ, cách chơi
 Điều khiển rắn ăn thức ăn phá kỉ lục, Tránh ăn các bức tường và cơ thể rắn
 # Cách chơi
@@ -55,8 +54,8 @@ https://github.com/nmd29io/BTL_LTNC/assets/85045877/7ab65480-c5fd-4ebe-a4f4-7a81
 https://github.com/nmd29io/BTL_LTNC/assets/85045877/dedbec48-3c9c-4a05-8f0d-3f969be1208d
 
 
-# Mã nguồn đã tham khảo, icon/đồ họa đã sử dụng.
-- Tham khỏa logic game: [Youtube](https://www.youtube.com/watch?v=3kw1-dOikMA&t=508s&pp=ugMICgJ2aRABGAHKBQlzbmFrZSBzZGw%3D) [ChatGPT](https://chat.openai.com)
+# Mã nguồn đã tham khảo; icon, đồ họa đã sử dụng.
+- Tham khảo logic: [Youtube](https://www.youtube.com/watch?v=3kw1-dOikMA&t=508s&pp=ugMICgJ2aRABGAHKBQlzbmFrZSBzZGw%3D) [ChatGPT](https://chat.openai.com)
 - Đồ họa icon sử dụng: [Google Snake Game](https://www.spriters-resource.com/browser_games/googlesnakegame/) [itch.io](https://itch.io)
 
 
