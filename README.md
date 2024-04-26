@@ -1,21 +1,18 @@
 ![image](https://github.com/nmd29io/BTL_LTNC/assets/85045877/8a16f071-8458-4b9f-9874-d7f79c1145cd)
 
 #  SNAKE -NMD-Edition
-- Họ và tên Nguyễn Minh Đức
-- Khóa K68 CN1 lớp B-C UET-VNU
-- Mã sinh viên 23020049
-- [Video thử nghiệm game](https://youtu.be/1uaxNIu2VxA)
+- Học sinh **Nguyễn Minh Đức** K68 B-C UET
+- Mã sinh viên **23020049**
+- [**`Video thử nghiệm game`**](https://youtu.be/1uaxNIu2VxA)
 
 # Giới thiệu game
 Game **Snake** là một thể loại game hành động nơi người chơi điều khiển đầu của một đường đang phát triển, thường được tạo hình như một con rắn. Trong game người chơi phải điều khiểu đầu rắn. Khi bạn ăn được thức ăn rắn sẽ phát triển dài ra. Nếu, hoặc khi nào, con rắn va vào cạnh màn hình hoặc ăn phải chính mình thì trò chơi sẽ kết thúc.<br/>
 Game được viết bằng C++ và thư viện SDL2
 
 # Download 
- [Window](https://github.com/nmd29io/BTL_LTNC/releases/download/master/BTL_Release.zip)<br/>
- Tải file giải nén và chạy file ![image](https://github.com/nmd29io/BTL_LTNC/assets/85045877/092bb014-97be-4457-a4ca-b4d599df030e)
-<br/>
-Game đã được chạy thử trên vài máy Window 10,11<br/>
-Game không có virus<br/>
+ [**`Window`**](https://github.com/nmd29io/BTL_LTNC/releases/download/master/BTL_Release.zip)<br/>
+ `Tải`, `giải nén` và `chạy` ![image](https://github.com/nmd29io/BTL_LTNC/assets/85045877/23a95a07-d94f-4fd4-9178-d61f0d443a4f)<br/>
+Game đã được chạy thử trên vài máy Window 10,11 và `không có virus`<br/>
 ![image](https://github.com/nmd29io/BTL_LTNC/assets/85045877/92066254-e2c6-4035-ae04-79f76b8397d9)
 
 # Cách chơi 
@@ -62,7 +59,7 @@ https://github.com/nmd29io/BTL_LTNC/assets/85045877/b6b5134e-2ad9-4c06-8da0-7281
 https://github.com/nmd29io/BTL_LTNC/assets/85045877/7ab65480-c5fd-4ebe-a4f4-7a81d52f17d4
 
 
-- **Lock**: Bạn phải nhặt chìa khóa để mở các hộp hoa quả bị khóa, nếu bạn ăn hộp chưa mở GAME OVER<br/>
+- `Lock`: Bạn phải nhặt chìa khóa để mở các hộp hoa quả bị khóa, nếu bạn ăn hộp chưa mở GAME OVER<br/>
 
 
 https://github.com/nmd29io/BTL_LTNC/assets/85045877/dedbec48-3c9c-4a05-8f0d-3f969be1208d
@@ -70,13 +67,13 @@ https://github.com/nmd29io/BTL_LTNC/assets/85045877/dedbec48-3c9c-4a05-8f0d-3f96
 
 # Mô tả mã nguồn
 ## Code
-- main.cpp: khai báo các đồ họa, âm thanh và game loop
-- sdl_setup.h: initialize vào  thư viện SDL
-- global.h: khai báo các biến toàn 
-- menu.h: bao gồm các hàm sử lý lưu điểm cao, render điểm và sử lý các sự kiện Menu Bắt đầu
-- text.h: liên quan đến render chữ
-- game.h: logic game
-- ingame.h: sử lý sự kiện trong trò chơi, dùng các hàm của game.h
+- [`main.cpp`](https://github.com/nmd29io/BTL_LTNC/blob/12ebc93007065fa301e91ff0ae49435877f30447/Snake/main.cpp): khai báo các đồ họa, âm thanh và game loop
+- [`sdl_setup.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/sdl_setup.h): initialize vào  thư viện SDL
+- [`global.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/global.h): khai báo các biến toàn 
+- [`menu.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/menu.h): bao gồm các hàm sử lý lưu điểm cao, render điểm và sử lý các sự kiện Menu Bắt đầu
+- [`text.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/text.h): liên quan đến render chữ
+- [`game.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/game.h): logic game
+- [`ingame.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/ingame.h): sử lý sự kiện trong trò chơi, dùng các hàm của game.h
 
 ## Tham khảo 
 - Các kiến thức học trên lớp LTNC
@@ -102,7 +99,7 @@ https://github.com/nmd29io/BTL_LTNC/assets/85045877/dedbec48-3c9c-4a05-8f0d-3f96
 - Thêm bản đồ vô hạn và chơi online
 - Học thêm OOP và design pattern
 # Em xin chân thành cảm ơn 2 thầy lớp LTNC
-- TS. Lê Đức Trọng
-- CN. Trần Trường Thủy
+- `TS. Lê Đức Trọng`
+- `CN. Trần Trường Thủy`
 
 
