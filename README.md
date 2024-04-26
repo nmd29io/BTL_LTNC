@@ -68,20 +68,20 @@ https://github.com/nmd29io/BTL_LTNC/assets/85045877/dedbec48-3c9c-4a05-8f0d-3f96
 
 # Mô tả mã nguồn
 ## Code
-- [`main.cpp`](https://github.com/nmd29io/BTL_LTNC/blob/12ebc93007065fa301e91ff0ae49435877f30447/Snake/main.cpp): khai báo các đồ họa, âm thanh và game loop
-- [`sdl_setup.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/sdl_setup.h): initialize vào  thư viện SDL
+- [`main.cpp`](https://github.com/nmd29io/BTL_LTNC/blob/12ebc93007065fa301e91ff0ae49435877f30447/Snake/main.cpp): khai báo các biến đồ họa, âm thanh, FPS và game loop
+- [`sdl_setup.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/sdl_setup.h): dùng để Init và Release thư viện SDL
 - [`global.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/global.h): khai báo các biến toàn 
 - [`menu.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/menu.h): bao gồm các hàm sử lý lưu điểm cao, render điểm và sử lý các sự kiện Menu Bắt đầu
-- [`text.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/text.h): liên quan đến render chữ
-- [`game.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/game.h): logic game
+- [`text.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/text.h): bao gồm các hàm liên quan đến render chữ
+- [`game.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/game.h): bao gồm các hàm liên quan đến logic game
 - [`ingame.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/ingame.h): sử lý sự kiện trong trò chơi, dùng các hàm của game.h
 
-## Tham khảo 
+## Nguồn tham khảo 
 - Các kiến thức học trên lớp LTNC
-- Tham khảo, học tập logic, mã nguồn: [Youtube](https://www.youtube.com/watch?v=3kw1-dOikMA&t=508s&pp=ugMICgJ2aRABGAHKBQlzbmFrZSBzZGw%3D) và [ChatGPT](https://chat.openai.com)
-- Đồ họa icon sử dụng: [spriters-resource.com](https://www.spriters-resource.com/browser_games/googlesnakegame/) và [itch.io](https://itch.io)
-- Music: [Head Empty](https://www.youtube.com/watch?v=1-Bgs27hB5k)
+- Tham khảo, học tập logic, mã nguồn: [Youtube(Snake in 130 lines)](https://www.youtube.com/watch?v=3kw1-dOikMA&t=508s&pp=ugMICgJ2aRABGAHKBQlzbmFrZSBzZGw%3D), [Google](https://www.google.com/) và [ChatGPT](https://chat.openai.com)
+- Đồ họa icon sử dụng: [game rắn săn mồi của Google](https://www.spriters-resource.com/browser_games/googlesnakegame/) và [itch.io](https://itch.io)
 - Tham khảo các chế độ trong [game rắn săn mồi của Google](https://g.co/kgs/V8a3RU2)
+- Music: [Head Empty](https://www.youtube.com/watch?v=1-Bgs27hB5k)
 # Tổng kết
 ## Bài học
 - Cải thiện kĩ năng lập trình
@@ -89,6 +89,7 @@ https://github.com/nmd29io/BTL_LTNC/assets/85045877/dedbec48-3c9c-4a05-8f0d-3f96
 - Sử dụng thư viện SDL2.0, SDL2.0_image, SDL2.0_mixer, SDL2.0_ttf
 - Học được thêm nhiều thuật toán hay và tự mình cài đặt vào chương trình.
 - Học được kĩ thuật làm game cơ bản.
+- Rèn tính kiên trì, tìm và sửa lỗi
 - ... 
 ## Nhược điểm
 - Game chưa có AI và chế độ multiplayer
