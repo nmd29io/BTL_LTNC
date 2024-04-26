@@ -4,18 +4,20 @@
 - Họ và tên Nguyễn Minh Đức
 - Khóa K68 CN1 lớp B-C UET-VNU
 - Mã sinh viên 23020049
-- [Thử nghiệm game](https://youtu.be/aIwp53ujmKk)
+- [Video thử nghiệm game](https://youtu.be/1uaxNIu2VxA)
 
 # Giới thiệu game
 Game **Snake** là một thể loại game hành động nơi người chơi điều khiển đầu của một đường đang phát triển, thường được tạo hình như một con rắn. Trong game người chơi phải điều khiểu đầu rắn. Khi bạn ăn được thức ăn rắn sẽ phát triển dài ra. Nếu, hoặc khi nào, con rắn va vào cạnh màn hình hoặc ăn phải chính mình thì trò chơi sẽ kết thúc.<br/>
 Game được viết bằng C++ và thư viện SDL2
 
 # Download 
-[Window](https://github.com/nmd29io/BTL_LTNC/releases/download/master/BTL_Release.zip) Tải file giải nén và chạy file .exe (application)<br/>
-Game đã được chạy thử trên vài máy Window 10,11 một vài máy không cài bất kì compiler hay IDE nào
-# Nhiệm vụ
-Điều khiển rắn ăn thức ăn phá kỉ lục, Tránh ăn các bức tường và cơ thể rắn
-# Bắt đầu 
+ [Window](https://github.com/nmd29io/BTL_LTNC/releases/download/master/BTL_Release.zip)<br/>
+ Tải file giải nén và chạy file .exe (application)<br/>
+Game đã được chạy thử trên vài máy Window 10,11<br/>
+Game không có virus<br/>
+![image](https://github.com/nmd29io/BTL_LTNC/assets/85045877/92066254-e2c6-4035-ae04-79f76b8397d9)
+
+# Cách chơi 
 - Nhấn Start để bắt đầu
 
 
@@ -26,9 +28,17 @@ https://github.com/nmd29io/BTL_LTNC/assets/85045877/5b5814db-7cde-4da5-abf1-7968
 ## Các phím tắt chức năng và điều khiển
 - `W, A, S, D` hoặc `UP, LEFT, DOWN, RIGHT`: Điểu khiển con rắn
 - `SPACE` hoặc ![Option](https://github.com/nmd29io/BTL_LTNC/assets/85045877/5b6cee90-d681-4363-b2aa-890d9839e6ad)
- : Tạm dừng trò chơi và mở OPTION chuyển chế độ
-- `M` hoặc ![MusicNotes](https://github.com/nmd29io/BTL_LTNC/assets/85045877/b930ccc5-ad84-4330-84c2-10454042f0eb) ![SpeakerOn](https://github.com/nmd29io/BTL_LTNC/assets/85045877/2cf0990e-4445-4c5a-bdfc-cf1e3e427816): Tắt hoặc Bật âm thanh
+ : Tạm dừng trò chơi và mở `option` chuyển chế độ
+- `M` hoặc ![MusicNotes](https://github.com/nmd29io/BTL_LTNC/assets/85045877/b930ccc5-ad84-4330-84c2-10454042f0eb) ![SpeakerOn](https://github.com/nmd29io/BTL_LTNC/assets/85045877/2cf0990e-4445-4c5a-bdfc-cf1e3e427816): Tắt hoặc Bật music, sound effect
 - `R`: Chơi lại
+## Nhiệm vụ
+- Điều khiển rắn ăn thức ăn phá kỉ lục, Tránh ăn các bức tường và cơ thể rắn
+- Điểm hiện tại:![Sprite-0001](https://github.com/nmd29io/BTL_LTNC/assets/85045877/399e1718-f1d2-4e2d-a03e-d42f2e09e1ed)
+
+
+- Điểm cao:![Trophy](https://github.com/nmd29io/BTL_LTNC/assets/85045877/1b56d469-eb64-42d8-9706-2ef6d1eb9c65)
+
+
 ## Các chế độ
 ![image](https://github.com/nmd29io/BTL_LTNC/assets/85045877/a219e974-f66a-4fbd-ae59-11687f8afff1)
 - `Normal`: Chế độ bình thường không có gì khác biệt
