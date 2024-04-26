@@ -76,7 +76,7 @@ https://github.com/nmd29io/BTL_LTNC/assets/85045877/dedbec48-3c9c-4a05-8f0d-3f96
 - [`game.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/game.h): bao gồm các hàm liên quan đến logic game
 - [`ingame.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/ingame.h): sử lý sự kiện trong trò chơi, dùng các hàm của game.h
 
-## Nguồn tham khảo 
+## Nguồn tham khảo
 - Các kiến thức học trên lớp LTNC
 - Tham khảo, học tập logic, mã nguồn: [Youtube(Snake in 130 lines)](https://www.youtube.com/watch?v=3kw1-dOikMA&t=508s&pp=ugMICgJ2aRABGAHKBQlzbmFrZSBzZGw%3D), [Google](https://www.google.com/) và [ChatGPT](https://chat.openai.com)
 - Đồ họa icon sử dụng: [game rắn săn mồi của Google](https://www.spriters-resource.com/browser_games/googlesnakegame/) và [itch.io](https://itch.io)
@@ -100,8 +100,9 @@ https://github.com/nmd29io/BTL_LTNC/assets/85045877/dedbec48-3c9c-4a05-8f0d-3f96
 - Thêm chế độ multiplayer
 - Thêm bản đồ vô hạn và chơi online
 - Học thêm OOP và design pattern
-# Em xin chân thành cảm ơn 2 thầy lớp LTNC
+# Em xin chân thành cảm ơn
 - `TS. Lê Đức Trọng`
 - `CN. Trần Trường Thủy`
+- `Các anh mentor`
 
 
