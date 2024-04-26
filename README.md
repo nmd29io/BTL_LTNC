@@ -1,6 +1,6 @@
 ![image](https://github.com/nmd29io/BTL_LTNC/assets/85045877/8a16f071-8458-4b9f-9874-d7f79c1145cd)
 
-#  SNAKE -NMD-Edition
+# SNAKE-nmd29io-Edition
 - Học sinh **Nguyễn Minh Đức** K68 B-C UET
 - Mã sinh viên **23020049**
 - [**`Video thử nghiệm game`**](https://youtu.be/1uaxNIu2VxA)
