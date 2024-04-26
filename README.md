@@ -28,10 +28,18 @@ Game “Snake” là một thể loại game hành động nơi người chơi �
 ## Các chế độ
 ![image](https://github.com/nmd29io/BTL_LTNC/assets/85045877/a219e974-f66a-4fbd-ae59-11687f8afff1)
 - Normal: Chế độ bình thường không có gì khác biệt
-- Tele: Xuất hiện 2 hoa quả, bạn sẽ dịch chuyển đến vị trí quả còn lại khi ăn một hoa quả
-- Fly: Các hoa quả sẽ di chuyển và nảy lại khi chạm tường hoặc cơ thể
-- Wall: Khi bạn ăn hoa quả các bước tường gẫu nhiên sẽ xuất hiện
-- Lock: Bạn phải nhặt chìa khóa để mở các hộp hoa quả bị khóa, nếu bạn ăn hộp chưa mở GAME OVER
+- Tele: Xuất hiện 2 hoa quả, bạn sẽ dịch chuyển đến vị trí quả còn lại khi ăn một hoa quả <br/>
+![teleMode](https://github.com/nmd29io/BTL_LTNC/assets/85045877/6e102317-d880-4c13-95a1-a09078e69df6)
+- Fly: Các hoa quả sẽ di chuyển và nảy lại khi chạm tường hoặc cơ thể<br/>
+![flyMode](https://github.com/nmd29io/BTL_LTNC/assets/85045877/70ba5ef2-1ca1-4196-afbc-1b8e1d03b7a6)
+- Wall: Khi bạn ăn hoa quả các bước tường gẫu nhiên sẽ xuất hiện<br/>
+![wall2](https://github.com/nmd29io/BTL_LTNC/assets/85045877/5169f180-d12a-4104-9768-97eb05d1580b)
+- Lock: Bạn phải nhặt chìa khóa để mở các hộp hoa quả bị khóa, nếu bạn ăn hộp chưa mở GAME OVER<br/>
+![key](https://github.com/nmd29io/BTL_LTNC/assets/85045877/76f9e80d-e89e-4ddd-b065-0e49c440b5de)
+# Mã nguồn đã tham khảo, icon/đồ họa đã sử dụng.
+- Tham khỏa logic game: [Youtube](https://www.youtube.com/watch?v=3kw1-dOikMA&t=508s&pp=ugMICgJ2aRABGAHKBQlzbmFrZSBzZGw%3D) [ChatGPT](https://chat.openai.com)
+- Đồ họa icon sử dụng: [spriters-resource](https://www.spriters-resource.com/browser_games/googlesnakegame/) [itch.io](https://itch.io)
+
 
 
 
