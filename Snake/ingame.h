@@ -2,7 +2,7 @@
 #include "game.h"
 #include "global.h"
 
-Uint32 updateInputDelta,renderDelta,eyeDelta;
+Uint32 updateInputDelta,renderDelta,eyeDelta,speed = 8;
 void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Texture* icons[], Mix_Chunk* chunks[], Text* texts[], int &frame, SDL_Rect* iconsPos){
                         updateInputDelta += t1-t0;
 
@@ -43,7 +43,6 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
                                                     q_dir.push({CELL,0});
                                                     break;
                                                 //pause
-                                                case SDLK_ESCAPE:
                                                 case SDLK_SPACE:
                                                     pause = !pause;
                                                     break;
@@ -177,9 +176,7 @@ void handleInGame(SDL_Event &e, State &state, SDL_Texture* pictures[], SDL_Textu
 //render game>
                         renderDelta += t1-t0;
                         if(renderDelta > 1000.0f/FPS){renderDelta=0;
-
-
-                            if(!lose &&mode == FlyMode && (dir.x != 0 || dir.y != 0)) flyFood(p_food.first);
+                            if(!lose && !pause && mode == FlyMode && (dir.x != 0 || dir.y != 0)) flyFood(p_food.first);
                             renderBoardAndSnake(pictures);
                             renderFood(pictures,foodsrcRect);
                             if(mode == WallMode && wall.empty() == false){

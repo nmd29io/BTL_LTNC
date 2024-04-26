@@ -31,7 +31,7 @@ void newgame(int x, int y){
         for(int j = 0; j < 24; j++)
             if(cellState[i][j] != 9 )cellState[i][j] = 0;
 
-    snake.clear();speed = 8;
+    snake.clear();
     SnakeSize = INIT_SIZE;
     SDL_Rect temp;
     for (int i = 0; i < INIT_SIZE; ++i) {

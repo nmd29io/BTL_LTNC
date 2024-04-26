@@ -63,8 +63,8 @@ int main(int argc, char** argv)
         t1 = SDL_GetTicks();
         delta = t1 - t0;
         if(delta < 1000.0f / FPS ){
-            SDL_Delay(1000.0f / FPS - delta);
             SDL_RenderPresent(renderer);
+            SDL_Delay(1000.0f / FPS - delta);
         }
 
 

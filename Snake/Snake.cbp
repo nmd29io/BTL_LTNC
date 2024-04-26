@@ -17,15 +17,17 @@
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/Snake" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../Snake" />
 				<Option object_output="obj/Release/" />
-				<Option type="1" />
+				<Option external_deps="D:/BTL_LTNC/Snake/;" />
+				<Option type="0" />
 				<Option compiler="gcc" />
-				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf" />
 				</Linker>
 			</Target>
 		</Build>
@@ -34,12 +36,15 @@
 		</Compiler>
 		<Unit filename="game.h" />
 		<Unit filename="global.h" />
-		<Unit filename="input.h" />
+		<Unit filename="icon.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="ingame.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="menu.h" />
 		<Unit filename="sdl_setup.h" />
+		<Unit filename="temp.txt" />
 		<Unit filename="text.h" />
-		<Unit filename="two_player.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

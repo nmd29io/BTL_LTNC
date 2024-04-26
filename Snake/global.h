@@ -45,7 +45,7 @@ SDL_Point m;
 SDL_Rect head;
 std::deque<SDL_Rect> snake;
 int SnakeSize = INIT_SIZE;
-float speed;
+
 std::queue<SDL_Point> q_dir;
 SDL_Point dir;
 
