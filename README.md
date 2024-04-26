@@ -1,18 +1,19 @@
 ![image](https://github.com/nmd29io/BTL_LTNC/assets/85045877/8a16f071-8458-4b9f-9874-d7f79c1145cd)
 
 # SNAKE-nmd29io-Edition
-- Học sinh **Nguyễn Minh Đức** K68 B-C UET
+- Học sinh **Nguyễn Minh Đức** K68CB-UET
 - Mã sinh viên **23020049**
+- Lơp **INT2215_50**
 - [**`Video thử nghiệm game`**](https://youtu.be/1uaxNIu2VxA)
 
 # Giới thiệu game
-Game **Snake** là một thể loại game hành động nơi người chơi điều khiển đầu của một đường đang phát triển, thường được tạo hình như một con rắn. Trong game người chơi phải điều khiểu đầu rắn. Khi bạn ăn được thức ăn rắn sẽ phát triển dài ra. Nếu, hoặc khi nào, con rắn va vào cạnh màn hình hoặc ăn phải chính mình thì trò chơi sẽ kết thúc.<br/>
-Game được viết bằng C++ và thư viện SDL2
+- _Rắn săn mồi_ là một thể loại game hành động nơi người chơi điều khiển đầu của một đường đang phát triển, thường được tạo hình như một con rắn. Trong game người chơi phải điều khiểu đầu rắn. Khi bạn ăn được thức ăn rắn sẽ phát triển dài ra. Nếu, hoặc khi nào, con rắn va vào cạnh màn hình hoặc ăn phải chính mình thì trò chơi sẽ kết thúc.<br/>
+- Game được viết bằng C++ và sử dụng thư viện SDL2
 
 # Download 
  [**`Window`**](https://github.com/nmd29io/BTL_LTNC/releases/download/master/BTL_Release.zip)<br/>
- `Tải`, `giải nén` và `chạy` ![image](https://github.com/nmd29io/BTL_LTNC/assets/85045877/23a95a07-d94f-4fd4-9178-d61f0d443a4f)<br/>
-Game đã được chạy thử trên vài máy Window 10,11 và `không có virus`<br/>
+ _Tải_, _giải nén_ và _chạy_ ![image](https://github.com/nmd29io/BTL_LTNC/assets/85045877/23a95a07-d94f-4fd4-9178-d61f0d443a4f)<br/>
+Game đã được chạy thử trên vài máy Window 10,11 không cần compiler, IDE và **`không có virus`**<br/>
 ![image](https://github.com/nmd29io/BTL_LTNC/assets/85045877/92066254-e2c6-4035-ae04-79f76b8397d9)
 
 # Cách chơi 
@@ -77,8 +78,8 @@ https://github.com/nmd29io/BTL_LTNC/assets/85045877/dedbec48-3c9c-4a05-8f0d-3f96
 
 ## Tham khảo 
 - Các kiến thức học trên lớp LTNC
-- Tham khảo logic, mã nguồn: [Youtube](https://www.youtube.com/watch?v=3kw1-dOikMA&t=508s&pp=ugMICgJ2aRABGAHKBQlzbmFrZSBzZGw%3D) [ChatGPT](https://chat.openai.com)
-- Đồ họa icon sử dụng: [Google Snake Game](https://www.spriters-resource.com/browser_games/googlesnakegame/) [itch.io](https://itch.io)
+- Tham khảo, học tập logic, mã nguồn: [Youtube](https://www.youtube.com/watch?v=3kw1-dOikMA&t=508s&pp=ugMICgJ2aRABGAHKBQlzbmFrZSBzZGw%3D) và [ChatGPT](https://chat.openai.com)
+- Đồ họa icon sử dụng: [spriters-resource.com](https://www.spriters-resource.com/browser_games/googlesnakegame/) và [itch.io](https://itch.io)
 - Music: [Head Empty](https://www.youtube.com/watch?v=1-Bgs27hB5k)
 - Tham khảo các chế độ trong [game rắn săn mồi của Google](https://g.co/kgs/V8a3RU2)
 # Tổng kết
