@@ -69,8 +69,8 @@ https://github.com/nmd29io/BTL_LTNC/assets/85045877/dedbec48-3c9c-4a05-8f0d-3f96
 # Mô tả mã nguồn
 ## Code
 - [`main.cpp`](https://github.com/nmd29io/BTL_LTNC/blob/12ebc93007065fa301e91ff0ae49435877f30447/Snake/main.cpp): khai báo các biến đồ họa, âm thanh, FPS và game loop
-- [`sdl_setup.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/sdl_setup.h): dùng để Init và Release thư viện SDL
-- [`global.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/global.h): khai báo các biến toàn 
+- [`sdl_setup.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/sdl_setup.h): dùng để khởi tạo và giải phóng thư viện SDL
+- [`global.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/global.h): khai báo các biến toàn cục
 - [`menu.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/menu.h): bao gồm các hàm sử lý lưu điểm cao, render điểm và sử lý các sự kiện Menu Bắt đầu
 - [`text.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/text.h): bao gồm các hàm liên quan đến render chữ
 - [`game.h`](https://github.com/nmd29io/BTL_LTNC/blob/master/Snake/game.h): bao gồm các hàm liên quan đến logic game
